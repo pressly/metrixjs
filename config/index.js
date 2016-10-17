@@ -10,9 +10,9 @@ if (process.env.NODE_ENV == 'production') {
   }
 } else {
   config = {...webpackConfigDefault}
-  config.build = () => {
-    console.log('=> build me..', config)
-  }
+  // config.build = () => {
+  //   console.log('=> build me..', config)
+  // }
 }
 
 export default config

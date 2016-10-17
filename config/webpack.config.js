@@ -1,15 +1,5 @@
 import webpack from 'webpack'
 
-import path from 'path'
-
-console.log('====>', process.cwd())
-
-// var configDir = path.join(process.cwd())
-// var webpackConfig
-// if process.env.NODE_ENV == "production" {
-//   webpackConfig
-// }
-
 const config = {
   entry: './src/index.js',
   output: {
@@ -33,6 +23,11 @@ const config = {
       minimize: true
     })
   ]
+}
+
+// Default webpack config is to start the dev server
+config.build = () => {
+  console.log('starting dev server')
 }
 
 export default config
