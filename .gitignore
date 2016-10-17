@@ -1,0 +1,23 @@
+#
+# etc
+
+node_modules/
+.env
+
+#
+# temp files
+npm-debug.log
+
+#
+# temp folders
+
+.build/
+
+#
+# osx temps
+
+.DS_Store
+
+#
+# vscode
+.vscode

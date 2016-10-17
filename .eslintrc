@@ -1,0 +1,44 @@
+{
+  "extends": "eslint:recommended",
+  "ecmaFeatures": {
+    "modules": true
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "globals": {
+    "describe": true,
+    "beforeEach": true,
+    "before": true,
+    "afterEach": true,
+    "after": true,
+    "it": true,
+    "__CONFIG__": true,
+    "trace": true,
+    "traceP": true,
+    "__DEV__": true,
+    "__VERSION__": true,
+    "__TEST__": true,
+    "__SERVER__": true,
+    "$Diff": true
+  },
+  "rules": {
+    "no-case-declarations": 0,
+    "no-console": [ 1, { "allow": ["log", "warn", "error"] }],
+    "comma-dangle": [ 2, "never" ],
+    "eol-last": 2,
+    "jsx-quotes": [ 2, "prefer-double" ],
+    "no-multiple-empty-lines": 2,
+    "no-unused-vars": 0,
+    "no-var": 2,
+    "no-constant-condition": 0,
+    "quotes": [ 2, "single", { "avoidEscape": true, "allowTemplateLiterals": true } ],
+    "semi": [ 2, "never" ],
+    "no-fallthrough": 0,
+    "strict": 0
+  },
+  "plugins": [
+  ]
+}
