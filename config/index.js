@@ -1,7 +1,4 @@
 /* eslint no-undef: 0 */
-
-// well.. this will work..
-
 import webpackConfigDefault from './webpack.config'
 import webpackConfigDist from './webpack.config.dist'
 
