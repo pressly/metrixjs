@@ -8,8 +8,12 @@
     "url": "git@github.com:pressly/metrixjs.git",
     "type": "git"
   },
-  "scripts": {},
+  "scripts": {
+    "start": "NODE_ENV=development ./node_modules/.bin/babel-node ./scripts/build.js",
+    "dist": "NODE_ENV=production ./node_modules/.bin/babel-node ./scripts/build.js"
+  },
   "dependencies": {
+    "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.2.5",
