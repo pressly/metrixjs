@@ -2,17 +2,11 @@
 import webpackConfigDefault from './webpack.config'
 import webpackConfigDist from './webpack.config.dist'
 
-let config 
+const config = {}
 if (process.env.NODE_ENV == 'production') {
-  config = {...webpackConfigDist}
-  config.build = () => {
-    console.log('=> build me.. prod', config)
-  }
+  config.webpack = webpackConfigDist
 } else {
-  config = {...webpackConfigDefault}
-  // config.build = () => {
-  //   console.log('=> build me..', config)
-  // }
+  config.webpack = webpackConfigDefault
 }
 
 export default config

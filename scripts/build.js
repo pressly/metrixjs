@@ -1,2 +1,2 @@
 import config from '../config'
-config.build()
+config.webpack.build()
