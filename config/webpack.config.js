@@ -4,9 +4,8 @@ import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
 import colors from 'colors/safe'
+import { ROOT_PATH, SRC_PATH } from './constants'
 
-const ROOT_PATH = path.join(__dirname, '..')
-const SRC_PATH = path.join(ROOT_PATH, 'src')
 const DEV_HOST = '0.0.0.0'
 const DEV_PORT = '3000'
 const PUBLIC_PATH = `http://${DEV_HOST}:${DEV_PORT}`
@@ -29,14 +28,12 @@ const config = {
   },
   
   module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        include: SRC_PATH,
-        exclude: /node_modules/,
-        loader: 'babel-loader' 
-      }
-    ]
+    loaders: [{
+      test: /\.js$/,
+      include: SRC_PATH,
+      exclude: /node_modules/,
+      loader: 'babel-loader' 
+    }]
   },
   
   plugins: [
