@@ -1,6 +1,6 @@
 
 
-console.log('hello')
+console.log('hello yes')
 
 class Friend {
   a = null
