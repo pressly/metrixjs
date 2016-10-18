@@ -1,14 +1,21 @@
 metrix.js
 =========
 
-## Usage / Install
+## Install
 
 ```shell
 $ yarn
+```
+
+## Development
+
+```shell
 $ make run
 ```
 
-open browser to http://localhost:3000/
+This will start the metrix debug application at `./src/debug`
+running on http://localhost:3000/
+
 
 ## Distribution build
 

@@ -21,9 +21,9 @@ const config = {
 
   resolve: {
     unsafeCache: true,
-    root: 'app',
+    root: 'lib',
     alias: {
-      'app': SRC_PATH
+      'lib': SRC_PATH
     }
   },
   
@@ -37,8 +37,12 @@ const config = {
   },
   
   plugins: [
+    new webpack.DefinePlugin({
+      __DEV__: process.env.NODE_ENV !== 'production',
+      'process.env': JSON.stringify(process.env)
+    }),
     new HTMLWebpackPlugin({
-      title: 'metrixjs test app',
+      template: path.join(SRC_PATH, 'debug/index.html'),
       filename: 'index.html',
       hash: true
     })
@@ -62,7 +66,7 @@ const config = {
 
 function getEntry() {
   const entry = {
-    app: [ path.join(SRC_PATH, 'index.js') ]
+    app: [ path.join(SRC_PATH, 'debug/index.js') ]
   }
   entry.app.unshift(`webpack-dev-server/client?${PUBLIC_PATH}`)
   return entry

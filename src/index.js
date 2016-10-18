@@ -1,20 +1,17 @@
-
-
-console.log('hello yes')
-
-class Friend {
-  a = null
-  b = null
-
-  constructor(a, b) {
-    this.a = a
-    this.b = b
+export default class Metrix {
+  constructor(serverHost) {
+    this.serverHost = serverHost
   }
 
-  talk() {
-    console.log('hi', this.a, this.b)
+  track() {
+    console.log('tracking on', this.serverHost)
   }
 }
 
-let f = new Friend('a', 'b')
-f.talk()
+// TODO: what about staging.. and dev servers.. etc..
+let SERVER_HOST = 'http://api.pressly.com/'
+if (__DEV__) {
+  SERVER_HOST = 'http://localhost:5331/'
+}
+
+window.PresslyMetrix = new Metrix(SERVER_HOST)
