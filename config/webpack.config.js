@@ -81,7 +81,6 @@ config.build = () => {
   server.listen(DEV_PORT, DEV_HOST, () => {
     console.log(colors.green(`Webpack dev server listening ${DEV_HOST}:${DEV_PORT}`))
   })
-
 }
 
 export default config

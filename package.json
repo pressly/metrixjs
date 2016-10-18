@@ -4,6 +4,7 @@
   "author": "Peter Kieltyka <peter.kieltyka@pressly.com>",
   "license": "(c) Pressly",
   "private": true,
+  "main": "dist/metrix.js",
   "repository": {
     "url": "git@github.com:pressly/metrixjs.git",
     "type": "git"

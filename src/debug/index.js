@@ -2,5 +2,5 @@
 import 'lib'
 
 let PresslyMetrix = window.PresslyMetrix
-PresslyMetrix.track()
+PresslyMetrix.track('click', {page:1})
 
