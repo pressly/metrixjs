@@ -6,7 +6,6 @@
 // for a detailed look at how GA cookies works, which is also the basis of this
 // implementation. We also implement UTM parameter support, see 
 
-// import util from './util'
 import * as util from './util'
 import tracker from './tracker'
 
