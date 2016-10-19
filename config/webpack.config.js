@@ -21,9 +21,9 @@ const config = {
 
   resolve: {
     unsafeCache: true,
-    root: 'lib',
+    root: 'metrix',
     alias: {
-      'lib': SRC_PATH
+      'metrix': SRC_PATH
     }
   },
   

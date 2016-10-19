@@ -29,7 +29,7 @@ const config = {
     //     warnings: false
     //   },
     //   comments: false,
-    //   // mangle: true,
+    //   mangle: true,
     //   minimize: true
     // })
   ]

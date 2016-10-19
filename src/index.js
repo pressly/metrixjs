@@ -6,47 +6,69 @@
 // for a detailed look at how GA cookies works, which is also the basis of this
 // implementation. We also implement UTM parameter support, see 
 
-const USER_IDENTITY = '_mx'
-const USER_VISIT = ' _mxt'
+// import util from './util'
+import * as util from './util'
+import tracker from './tracker'
+
+const CLIENT_ID_KEY = '_mx'
+const CLIENT_ID_EXPIRY = 2*365*24*60 // 2 years in minutes
+// const CLIENT_SESSION = ' _mxt'
+// const CLIENT_SESSION_EXPIRY = 10 // 10 minutes
+
+const SYNC_INTERVAL = 1000 // in milliseconds
 
 export default class Metrix {
   constructor(serverHost) {
+
+    // api server host
     this.serverHost = serverHost
+
+    // user identity/fingerprint
+    this.clientID = this.identify()
+
+    // event queue
+    this.queue = []
+
+    // sync enqueued events to the server
+    this.sync = util.debounce(this, this.dispatch, SYNC_INTERVAL)
+  }
+
+  // identify will find or create a user profile and session cookie
+  identify() {
+    // Find an existing user identity cookie or create a new one
+    let clientID = util.getCookie(CLIENT_ID_KEY)
+    if (clientID == '') {
+      clientID = util.generateClientID()
+    }
+
+    // Always set the user identity cookie, to push forward the expiry
+    util.setCookie(CLIENT_ID_KEY, clientID, CLIENT_ID_EXPIRY)
+    
+    // Track the user session, if it expires, make a new one
+    // TODO: ask maciej we need this at all..
+    // let session = getCookie(CLIENT_SESSION)
+    // if (session == '') {
+    //   util.setCookie(CLIENT_SESSION, '1', CLIENT_SESSION_EXPIRY)
+    // }
+
+    return clientID
+  }
+
+  clearIdentity() {
+    if (__DEV__) {
+      util.setCookie(CLIENT_ID_KEY, '', 0)
+    }
   }
 
   track(event, payload) {
     console.log('tracking', event, payload)
+    let metric = tracker.Track(this.clientID, event, payload)
+    this.queue.push(metric)
+    this.sync()
+  }
+
+  dispatch() {
+    if (this.queue.length == 0) return
+    console.log('dispatching...', this.queue)
   }
 }
-
-// 1. We start by creating or find a user fingerprint + visit
-// effectively, this is the constructor.. and it should be on the current
-// domain/host.
-//
-// 
-//
-// TODO: createUser() - aka creates the user fingerprint 
-// and session hash
-// the cookies should be set on the very top-level domain.
-// MX1.2.<rand>.<created_at>
-// clientID = '<rand>.<created_at>'
-//
-// 2. 
-// ...
-//
-// X. track() events and queue them. The api.pressly.com receiving
-// server will notice the auth header or cookie, and it should keep
-// that into consideration on its own. We wouldn't know the jwt and
-// we dont want to assume we know the user id because that can be faked.
-//
-// Z. every 100ms, send() the queued events as a batch
-
-
-
-// TODO: what about staging.. and dev servers.. etc..
-let SERVER_HOST = 'http://api.pressly.com/'
-if (__DEV__) {
-  SERVER_HOST = 'http://localhost:5331/'
-}
-
-window.PresslyMetrix = new Metrix(SERVER_HOST)
