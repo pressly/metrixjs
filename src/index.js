@@ -86,6 +86,6 @@ export default class Metrix {
   }
 }
 
-if (typeof fetch === 'undefined') {
+if (typeof window.fetch === 'undefined') {
   throw 'metrix.js requires fetch(), check your runtime and try again.'
 }
