@@ -29,9 +29,10 @@ export const setCookie = (cname, cvalue, durationInMinutes) => {
   document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
 }
 
-export const debounce = (context, func, wait, immediate) => {
+export const debounce = (func, wait, immediate) => {
   let timeout
   return () => {
+    let context = this
     let args = arguments
     let later = () => {
       timeout = null

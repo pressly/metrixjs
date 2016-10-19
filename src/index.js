@@ -31,8 +31,11 @@ export default class Metrix {
     // event queue
     this.queue = []
 
+    // setup tracker methods for the client
+    this.track = Tracker(this.clientID, this.enqueue)
+
     // sync enqueued events to the server
-    this.sync = util.debounce(this, this.dispatch, SYNC_INTERVAL)
+    this.sync = util.debounce(this.dispatch, SYNC_INTERVAL)
   }
 
   // identify will find or create a user profile and session cookie
@@ -62,26 +65,17 @@ export default class Metrix {
     }
   }
 
-  track() {
-    return Tracker(this.clientID, (event, payload, err) => {
-      console.log('tracking', event, payload)
-      this.queue.push(payload)
-      this.sync()
-    })
+  enqueue = (event, err) => {
+    console.log('tracking', event)
+    this.queue.push(event.payload)
+    this.sync()
   }
 
-  // track(event, payload) {
-  //   console.log('tracking', event, payload)
-  //   let metric = tracker.Track(this.clientID, event, payload)
-  //   this.queue.push(metric)
-  //   this.sync()
-  // }
-
-  dispatch() {
+  dispatch = () => {
     if (this.queue.length == 0) return
     console.log('dispatching...', this.queue)
     
-    // Copy te payload from the events and empty the queue.
+    // Copy the payload from the events and empty the queue.
     // NOTE: I guess we dont have to worry about shared state in JS.
     let payload = [...this.queue]
     this.queue = []
