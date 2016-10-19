@@ -1,4 +1,6 @@
-// TODO: pause on this.. we might not need it. will leave it here for now.
+// NOTE: this code is currently not in use.. for now we're going to just
+// copy the query parameters from the location url and send it along everytime
+// we post data on dispatch
 
 const emptyUTMParams = {
   utm_source: null,

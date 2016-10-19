@@ -9,3 +9,7 @@ run:
 .PHONY: dist
 dist:
 	@npm run dist
+
+.PHONY: flow
+flow:
+	@npm run flow

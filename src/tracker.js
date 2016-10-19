@@ -1,11 +1,14 @@
-class Tracker {
+// @flow weak
+import { EVENTS } from './events'
 
+const Tracker = (clientID: string, cb) => {
+  return {
+    pageView: (payload) => {
+      let event = 'pageView'
+      let err = ''
+      cb(event, payload, err)
+    }
+  }
 }
 
-function Track(clientID, event, payload) {
-  return 1
-}
-
-export default {
-  Track
-}
+export default Tracker

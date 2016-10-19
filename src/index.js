@@ -7,14 +7,14 @@
 // implementation. We also implement UTM parameter support, see 
 
 import * as util from './util'
-import tracker from './tracker'
+import Tracker from './tracker'
 
-const CLIENT_ID_KEY = '_mx'
+const CLIENT_ID_KEY = '_pmx'
 const CLIENT_ID_EXPIRY = 2*365*24*60 // 2 years in minutes
-// const CLIENT_SESSION = ' _mxt'
+// const CLIENT_SESSION = ' _pmxt'
 // const CLIENT_SESSION_EXPIRY = 10 // 10 minutes
 
-const SYNC_INTERVAL = 1000 // in milliseconds
+const SYNC_INTERVAL = 100 // in milliseconds
 
 export default class Metrix {
   constructor(serverHost) {
@@ -24,6 +24,9 @@ export default class Metrix {
 
     // user identity/fingerprint
     this.clientID = this.identify()
+
+    // copy the query string where we might find some utm params
+    this.queryString = window.location.search
 
     // event queue
     this.queue = []
@@ -59,19 +62,27 @@ export default class Metrix {
     }
   }
 
-  track(event, payload) {
-    console.log('tracking', event, payload)
-    let metric = tracker.Track(this.clientID, event, payload)
-    this.queue.push(metric)
-    this.sync()
+  track() {
+    return Tracker(this.clientID, (event, payload, err) => {
+      console.log('tracking', event, payload)
+      this.queue.push(payload)
+      this.sync()
+    })
   }
+
+  // track(event, payload) {
+  //   console.log('tracking', event, payload)
+  //   let metric = tracker.Track(this.clientID, event, payload)
+  //   this.queue.push(metric)
+  //   this.sync()
+  // }
 
   dispatch() {
     if (this.queue.length == 0) return
     console.log('dispatching...', this.queue)
     
     // Copy te payload from the events and empty the queue.
-    // NOTE: I guess we dont have to worry about shared state in JS somehow..?
+    // NOTE: I guess we dont have to worry about shared state in JS.
     let payload = [...this.queue]
     this.queue = []
 

@@ -13,3 +13,10 @@ if (__DEV__) {
 // Step 1 - init MX, which also creates cookies for the profile and visit
 let MX = window.MX = new Metrix(SERVER_HOST)
 
+MX.track().pageView({ url: 'x' })
+
+
+
+// console.log('========>', MX.track())
+// MX.track['pageView']({ url: 'x'})
+
