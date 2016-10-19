@@ -69,5 +69,18 @@ export default class Metrix {
   dispatch() {
     if (this.queue.length == 0) return
     console.log('dispatching...', this.queue)
+    
+    // Copy te payload from the events and empty the queue.
+    // NOTE: I guess we dont have to worry about shared state in JS somehow..?
+    let payload = [...this.queue]
+    this.queue = []
+
+    console.log('payload:', payload, 'queue:', this.queue)
+
+    // TODO HTTP POST it to the server
   }
+}
+
+if (typeof fetch === 'undefined') {
+  throw 'metrix.js requires fetch(), check your runtime and try again.'
 }
