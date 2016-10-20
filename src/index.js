@@ -28,9 +28,9 @@ const SESSION_ID_EXPIRY = 10 // 10 minutes
 const SESSION_QS_KEY = '_pmxq'
 const SESSION_QS_EXPIRY = SESSION_ID_EXPIRY
 
-// Amount of time given to batch other events and then dispatch to
-// the server.
-const SYNC_INTERVAL = 100 // in milliseconds
+// Amount of time given to batch work
+const DISPATCH_INTERVAL = 100 // 100 milliseconds
+const IDENTIFY_INTERVAL = 1*60*1000 // 1 minute in milliseconds
 
 // Metrix is the core interface to identifying, tracking and dispatching
 // user behaviour events.
@@ -45,13 +45,13 @@ export default class Metrix {
     // As well, setup an interval to update the identity while a
     // session is active.
     this.identify()
-    setInterval(this.identify, (SESSION_QS_EXPIRY / 2)*60*1000)
+    setInterval(this.identify, IDENTIFY_INTERVAL)
 
     // setup tracker methods for the client
     this.track = Tracker(this.enqueue)
 
     // sync enqueued events to the server
-    this.sync = util.debounce(this.dispatch, SYNC_INTERVAL)
+    this.sync = util.debounce(this.dispatch, DISPATCH_INTERVAL)
 
     // event queue
     this.queue = []
@@ -134,7 +134,8 @@ export default class Metrix {
     // Build the payload from the events and empty the queue.
     const payload = []
     for (let i=0; i < this.queue.length; i++) {
-      payload.push(this.queue[i].json(base))
+      const ev = this.queue[i]
+      payload.push(ev.json(base))
     }
     this.queue = []
 

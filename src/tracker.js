@@ -8,7 +8,7 @@ class Event {
   }
 
   json(base) {
-    return { ...base, data: this.data }
+    return { ...base, ts: this.ts, data: this.data }
   }
 }
 
