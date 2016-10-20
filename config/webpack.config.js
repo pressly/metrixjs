@@ -7,7 +7,7 @@ import colors from 'colors/safe'
 import { ROOT_PATH, SRC_PATH } from './constants'
 
 const DEV_HOST = '0.0.0.0'
-const DEV_PORT = '3000'
+const DEV_PORT = '4000'
 const PUBLIC_PATH = `http://${DEV_HOST}:${DEV_PORT}`
 
 const config = {

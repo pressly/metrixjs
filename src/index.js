@@ -9,80 +9,152 @@
 import * as util from './util'
 import Tracker from './tracker'
 
+// Request path to POST event payloads on the server
+const SERVER_ENDPOINT = '/pmx'
+
+// Long-term persisted client id fingerprint
 const CLIENT_ID_KEY = '_pmx'
 const CLIENT_ID_EXPIRY = 2*365*24*60 // 2 years in minutes
-// const CLIENT_SESSION = ' _pmxt'
-// const CLIENT_SESSION_EXPIRY = 10 // 10 minutes
 
+// Short-lived cookie to identify a single visit from a client.
+// The session ID is actually the unix timestamp of the session start time.
+const SESSION_ID_KEY = '_pmxt'
+const SESSION_ID_EXPIRY = 10 // 10 minutes
+
+// Short-lived query string stored in the cookie in case a user removes
+// them from the url. We do this to persist UTM query params, as well 
+// other potential query params we want to look out for. This cookie works
+// in coordination with the session cookie above.
+const SESSION_QS_KEY = '_pmxq'
+const SESSION_QS_EXPIRY = SESSION_ID_EXPIRY
+
+// Amount of time given to batch other events and then dispatch to
+// the server.
 const SYNC_INTERVAL = 100 // in milliseconds
 
+// Metrix is the core interface to identifying, tracking and dispatching
+// user behaviour events.
 export default class Metrix {
   constructor(serverHost) {
 
     // api server host
-    this.serverHost = serverHost
+    this.serverHost = serverHost.replace(/\/$/, '')
+    this.metrixURL = `${this.serverHost}${SERVER_ENDPOINT}`
 
-    // user identity/fingerprint
-    this.clientID = this.identify()
-
-    // copy the query string where we might find some utm params
-    this.queryString = window.location.search
-
-    // event queue
-    this.queue = []
+    // Identify the user with a long and short lived fingerprint.
+    // As well, setup an interval to update the identity while a
+    // session is active.
+    this.identify()
+    setInterval(this.identify, (SESSION_QS_EXPIRY / 2)*60*1000)
 
     // setup tracker methods for the client
-    this.track = Tracker(this.clientID, this.enqueue)
+    this.track = Tracker(this.enqueue)
 
     // sync enqueued events to the server
     this.sync = util.debounce(this.dispatch, SYNC_INTERVAL)
+
+    // event queue
+    this.queue = []
   }
 
-  // identify will find or create a user profile and session cookie
-  identify() {
-    // Find an existing user identity cookie or create a new one
-    let clientID = util.getCookie(CLIENT_ID_KEY)
+  // identify will find, create or update the user identity cookies.
+  identify = () => {
+
+    let cookieVals = util.getCookies([ CLIENT_ID_KEY, SESSION_ID_KEY, SESSION_QS_KEY ])
+
+    // Find an existing user identity cookie or create a new one.
+    // Also, always update the expiry for the client id cookie.
+    let clientID = cookieVals[CLIENT_ID_KEY]
     if (clientID == '') {
       clientID = util.generateClientID()
     }
-
-    // Always set the user identity cookie, to push forward the expiry
     util.setCookie(CLIENT_ID_KEY, clientID, CLIENT_ID_EXPIRY)
     
-    // Track the user session, if it expires, make a new one
-    // TODO: ask maciej we need this at all..
-    // let session = getCookie(CLIENT_SESSION)
-    // if (session == '') {
-    //   util.setCookie(CLIENT_SESSION, '1', CLIENT_SESSION_EXPIRY)
-    // }
+    // Track the user session, if it expires, make a new one.
+    // Also, always update the expiry for the session id cookie.
+    let sessionID = cookieVals[SESSION_ID_KEY]
+    if (sessionID == '') {
+      sessionID = util.generateSessionID()
+    }
+    util.setCookie(SESSION_ID_KEY, sessionID, SESSION_ID_EXPIRY)
 
-    return clientID
+    // Track the session QS (Query String), this will have utm params
+    // that are important to report. We store them in a cookie for the
+    // session lifetime in case the qs changes during the session.
+    let sessionQS = cookieVals[SESSION_QS_KEY]
+    if (sessionQS == '') {
+      sessionQS = window.location.search.substr(1)
+    }
+    util.setCookie(SESSION_QS_KEY, sessionQS, SESSION_QS_EXPIRY)
+
+    this.clientID = clientID
+    this.sessionID = sessionID
+    this.sessionQS = sessionQS
   }
 
   clearIdentity() {
     if (__DEV__) {
       util.setCookie(CLIENT_ID_KEY, '', 0)
+      util.setCookie(SESSION_ID_KEY, '', 0)
+      util.setCookie(SESSION_QS_KEY, '', 0)
     }
   }
 
   enqueue = (event, err) => {
-    console.log('tracking', event)
-    this.queue.push(event.payload)
+    util.log('tracking', event)
+    this.queue.push(event)
     this.sync()
   }
 
   dispatch = () => {
     if (this.queue.length == 0) return
-    console.log('dispatching...', this.queue)
+    util.log('dispatching...', this.queue)
     
-    // Copy the payload from the events and empty the queue.
-    // NOTE: I guess we dont have to worry about shared state in JS.
-    let payload = [...this.queue]
+    // event meta object that we inject into each payload
+    const base = {
+      cid: this.clientID, sid: this.sessionID, sqs: this.sessionQS,
+      url: window.location.href,
+
+      // TODO: we can prob track this device in the constructor too.
+      device: {
+        // TODO: ask Kyle how we can get this info..
+        // TODO: how can we get the OS ...? at least Windows, Mac, etc...
+        // browser version would be nice.
+        // "orientation": "landscape",
+        // "platform": "desktop",
+        // "isTouch": false,
+        // "userAgent": "Mozilla/5.0 (compatible; pingbot/2.0; +http://www.pingdom.com/)",
+        // "supportsMinimumRequirements": true
+      }
+    }
+
+    // TODO: we probably should have a general payload option
+    // for setting hub details, etc..
+
+    // Build the payload from the events and empty the queue.
+    const payload = []
+    for (let i=0; i < this.queue.length; i++) {
+      payload.push(this.queue[i].json(base))
+    }
     this.queue = []
 
-    console.log('payload:', payload, 'queue:', this.queue)
-
-    // TODO HTTP POST it to the server
+    // Send the payload over to the metrix endpoint
+    fetch(this.metrixURL, {
+      method: 'post',
+      mode: 'cors',
+      credentials: 'include',
+      headers: new Headers({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify(payload)
+    }).then((resp) => {
+      return resp.json()
+    }).then((result) => {
+      util.log('metrix dispatch response:', result)
+    }).catch((err) => {
+      console.error('metrix:', err)
+    })
   }
 }
 

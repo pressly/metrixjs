@@ -14,7 +14,7 @@ $ make run
 ```
 
 This will start the metrix debug application at `./src/debug`
-running on http://localhost:3000/
+running on http://localhost:4000/
 
 
 ## Distribution build
