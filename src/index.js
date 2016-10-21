@@ -66,7 +66,7 @@ export default class Metrix {
     // Also, always update the expiry for the client id cookie.
     let clientID = cookieVals[CLIENT_ID_KEY]
     if (clientID == '') {
-      clientID = util.generateClientID()
+      clientID = util.generateUID()
     }
     util.setCookie(CLIENT_ID_KEY, clientID, CLIENT_ID_EXPIRY)
     
@@ -74,7 +74,7 @@ export default class Metrix {
     // Also, always update the expiry for the session id cookie.
     let sessionID = cookieVals[SESSION_ID_KEY]
     if (sessionID == '') {
-      sessionID = util.generateSessionID()
+      sessionID = util.generateUID()
     }
     util.setCookie(SESSION_ID_KEY, sessionID, SESSION_ID_EXPIRY)
 

@@ -5,15 +5,10 @@ export const log = (...args) => {
   }
 }
 
-export const generateClientID = () => {
+export const generateUID = () => {
   let ts = (new Date()).getTime()
   let rd = Math.floor(Math.random()*1000000000)
   return `${rd}.${ts}`
-}
-
-export const generateSessionID = () => {
-  // SessionID is just the current unix timestamp
-  return (new Date()).getTime()
 }
 
 export const getCookies = (cnames) => {
