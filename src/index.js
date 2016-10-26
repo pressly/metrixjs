@@ -10,7 +10,7 @@ import * as util from './util'
 import Tracker from './tracker'
 
 // Request path to POST event payloads on the server
-const SERVER_ENDPOINT = '/pmx'
+const SERVER_ENDPOINT = '/metrix'
 
 // Long-term persisted client id fingerprint
 const CLIENT_ID_KEY = '_pmx'
@@ -18,14 +18,14 @@ const CLIENT_ID_EXPIRY = 2*365*24*60 // 2 years in minutes
 
 // Short-lived cookie to identify a single visit from a client.
 // The session ID is actually the unix timestamp of the session start time.
-const SESSION_ID_KEY = '_pmxt'
-const SESSION_ID_EXPIRY = 10 // 10 minutes
+const SESSION_ID_KEY = '_pmxb'
+const SESSION_ID_EXPIRY = 15 // 15 minutes
 
 // Short-lived query string stored in the cookie in case a user removes
 // them from the url. We do this to persist UTM query params, as well 
 // other potential query params we want to look out for. This cookie works
 // in coordination with the session cookie above.
-const SESSION_QS_KEY = '_pmxq'
+const SESSION_QS_KEY = '_pmxz'
 const SESSION_QS_EXPIRY = SESSION_ID_EXPIRY
 
 // Amount of time given to batch work
@@ -113,19 +113,7 @@ export default class Metrix {
     // event meta object that we inject into each payload
     const base = {
       cid: this.clientID, sid: this.sessionID, sqs: this.sessionQS,
-      url: window.location.href,
-
-      // TODO: we can prob track this device in the constructor too.
-      device: {
-        // TODO: ask Kyle how we can get this info..
-        // TODO: how can we get the OS ...? at least Windows, Mac, etc...
-        // browser version would be nice.
-        // "orientation": "landscape",
-        // "platform": "desktop",
-        // "isTouch": false,
-        // "userAgent": "Mozilla/5.0 (compatible; pingbot/2.0; +http://www.pingdom.com/)",
-        // "supportsMinimumRequirements": true
-      }
+      url: window.location.href
     }
 
     // TODO: we probably should have a general payload option
