@@ -9,6 +9,19 @@ if (__DEV__) {
 
 const PMX = window.PMX = new Metrix(SERVER_HOST)
 
+// TODO, track..
+/*
+- ClientID
+- SessionID
+- SessionQS
+
+[]events:
+- Module (id) - Hub ***
+- HubID
+
+
+*/
+
 PMX.track.pageView({ url: 'a' })
 PMX.track.pageView({ url: 'b' })
 

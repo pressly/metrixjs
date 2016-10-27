@@ -32,6 +32,10 @@ const SESSION_QS_EXPIRY = SESSION_ID_EXPIRY
 const DISPATCH_INTERVAL = 100 // 100 milliseconds
 const IDENTIFY_INTERVAL = 1*60*1000 // 1 minute in milliseconds
 
+// ****TODO****
+// should we be setting the domain for the cookie? to make sure
+// on *.domain.com we use the same clientid
+
 // Metrix is the core interface to identifying, tracking and dispatching
 // user behaviour events.
 export default class Metrix {
@@ -110,20 +114,18 @@ export default class Metrix {
     if (this.queue.length == 0) return
     util.log('dispatching...', this.queue)
     
-    // event meta object that we inject into each payload
-    const base = {
-      cid: this.clientID, sid: this.sessionID, sqs: this.sessionQS,
-      url: window.location.href
+    // payload setup for our batch of events
+    const payload = {
+      cid: this.clientID,
+      sid: this.sessionID,
+      sqs: this.sessionQS,
+      events: []
     }
 
-    // TODO: we probably should have a general payload option
-    // for setting hub details, etc..
-
-    // Build the payload from the events and empty the queue.
-    const payload = []
+    // push the events into the payload and clear the queue
     for (let i=0; i < this.queue.length; i++) {
       const ev = this.queue[i]
-      payload.push(ev.json(base))
+      payload.events.push(ev.json())
     }
     this.queue = []
 

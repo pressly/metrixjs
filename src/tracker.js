@@ -1,14 +1,25 @@
 // @flow weak
 
+// TODO: expand on modules which we track events.
+const HubModule = 1
+
 class Event {
   constructor(name, data) {
     this.name = name
     this.ts = (new Date()).getTime()
+    this.module = HubModule // TODO: change this for other modules.. right now, just hard-coded to hub
+    this.url = window.location.href
     this.data = data
   }
 
-  json(base) {
-    return { ...base, ts: this.ts, data: this.data }
+  // event json
+  json() {
+    return {
+      ts: this.ts,
+      module: this.module,
+      url: this.url,
+      data: this.data
+    }
   }
 }
 
