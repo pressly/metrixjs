@@ -32,9 +32,6 @@ const SESSION_QS_EXPIRY = SESSION_ID_EXPIRY
 const DISPATCH_INTERVAL = 100 // 100 milliseconds
 const IDENTIFY_INTERVAL = 1*60*1000 // 1 minute in milliseconds
 
-// ****TODO****
-// should we be setting the domain for the cookie? to make sure
-// on *.domain.com we use the same clientid
 
 // Metrix is the core interface to identifying, tracking and dispatching
 // user behaviour events.
@@ -50,6 +47,9 @@ export default class Metrix {
     // session is active.
     this.identify()
     setInterval(this.identify, IDENTIFY_INTERVAL)
+
+    // track the client's timezone offset
+    this.timezoneOffset = (new Date()).getTimezoneOffset() / 60
 
     // setup tracker methods for the client
     this.track = Tracker(this.enqueue)
@@ -119,6 +119,7 @@ export default class Metrix {
       cid: this.clientID,
       sid: this.sessionID,
       sqs: this.sessionQS,
+      tzo: this.timezoneOffset,
       events: []
     }
 
