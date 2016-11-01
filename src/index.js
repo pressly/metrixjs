@@ -49,7 +49,7 @@ export default class Metrix {
     setInterval(this.identify, IDENTIFY_INTERVAL)
 
     // track the client's timezone offset
-    this.timezoneOffset = (new Date()).getTimezoneOffset() / 60
+    this.timezoneOffset = (new Date()).getTimezoneOffset()
 
     // setup tracker methods for the client
     this.track = Tracker(this.enqueue)
