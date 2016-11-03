@@ -5,9 +5,10 @@ export const log = (...args) => {
   }
 }
 
+// ex: 411225986.1478031876
 export const generateUID = () => {
-  let ts = (new Date()).getTime()
-  let rd = Math.floor(Math.random()*1000000000)
+  let ts = Math.floor((new Date()).getTime() / 1000) // unix timestamp in seconds
+  let rd = Math.floor(Math.random()*1000000000) // 9 digits
   return `${rd}.${ts}`
 }
 

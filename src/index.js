@@ -15,6 +15,7 @@ const SERVER_ENDPOINT = '/metrix'
 // Long-term persisted client id fingerprint
 const CLIENT_ID_KEY = '_pmx'
 const CLIENT_ID_EXPIRY = 2*365*24*60 // 2 years in minutes
+const CLIENT_ID_PARAM = 'cid' // check query string for a client id
 
 // Short-lived cookie to identify a single visit from a client.
 // The session ID is actually the unix timestamp of the session start time.
@@ -32,10 +33,19 @@ const SESSION_QS_EXPIRY = SESSION_ID_EXPIRY
 const DISPATCH_INTERVAL = 100 // 100 milliseconds
 const IDENTIFY_INTERVAL = 1*60*1000 // 1 minute in milliseconds
 
+// TODO: grab the client id from the query param if its there
+// check to make sure it has a . and X length..
+// set the cookie value (with presedence)
+//
+// TODO: use history API to remove the cid query param
+//
+// TODO: have a flag that lets us make all events a noop
+// which we'd set during SSR mode. 
 
 // Metrix is the core interface to identifying, tracking and dispatching
 // user behaviour events.
-export default class Metrix {
+export class Metrix {
+
   constructor(serverHost) {
 
     // api server host
@@ -63,7 +73,6 @@ export default class Metrix {
 
   // identify will find, create or update the user identity cookies.
   identify = () => {
-
     let cookieVals = util.getCookies([ CLIENT_ID_KEY, SESSION_ID_KEY, SESSION_QS_KEY ])
 
     // Find an existing user identity cookie or create a new one.
@@ -90,6 +99,8 @@ export default class Metrix {
       sessionQS = window.location.search.substr(1)
     }
     util.setCookie(SESSION_QS_KEY, sessionQS, SESSION_QS_EXPIRY)
+
+    console.log('=>', clientID)
 
     this.clientID = clientID
     this.sessionID = sessionID
@@ -146,6 +157,16 @@ export default class Metrix {
       util.log('metrix dispatch response:', result)
     }).catch((err) => {
       console.error('metrix:', err)
+    })
+  }
+}
+
+export class MetrixNoop {
+  constructor() {
+    this.track = new Proxy({}, {
+      get: (target, name) => {
+        return () => {}
+      }
     })
   }
 }
