@@ -13,3 +13,7 @@ dist:
 .PHONY: flow
 flow:
 	@npm run flow
+
+.PHONY: update-proto
+update-proto:
+	@cp $(GOPATH)/src/github.com/pressly/api/services/metrix/proto/*.js ./src

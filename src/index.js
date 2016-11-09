@@ -38,9 +38,6 @@ const IDENTIFY_INTERVAL = 1*60*1000 // 1 minute in milliseconds
 // set the cookie value (with presedence)
 //
 // TODO: use history API to remove the cid query param
-//
-// TODO: have a flag that lets us make all events a noop
-// which we'd set during SSR mode. 
 
 // Metrix is the core interface to identifying, tracking and dispatching
 // user behaviour events.

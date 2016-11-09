@@ -1,15 +1,41 @@
 // @flow weak
 
-// TODO: expand on modules which we track events.
-const HubModule = 1
+let proto = require('exports?proto!imports?goog=>{provide:function(){}},proto=>{events:{}}!./proto.js')
+
+const Tracker = (cb) => {
+  return {
+    event: (moduleKey, eventKey, data) => {
+      const ev = new Event(moduleKey, eventKey, data)
+      cb(ev, null)
+    },
+
+    options: proto.events
+  }
+}
+
+export default Tracker
 
 class Event {
-  constructor(name, data) {
-    this.name = name
+  constructor(moduleKey, eventKey, data) {
+    this.module = moduleKey // module key
+    this.name = eventKey    // event key
+
     this.ts = (new Date()).getTime()
-    this.module = HubModule // TODO: change this for other modules.. right now, just hard-coded to hub
     this.url = window.location.href
     this.data = data
+
+    this.verifyKeys()
+  }
+
+  verifyKeys() {
+    let k = proto.events.Module[this.module]
+    if (k == undefined) {
+      throw `metrix: ${this.module} is an unsupported module.`
+    }
+    k = proto.events.Event[this.name]
+    if (k == undefined) {
+      throw `metrix: ${this.name} is an unsupported event.`
+    }
   }
 
   // event json
@@ -17,25 +43,9 @@ class Event {
     return {
       ts: this.ts,
       module: this.module,
+      name: this.name, // TODO: name...?
       url: this.url,
       data: this.data
     }
   }
 }
-
-const Tracker = (cb) => {
-  return {
-    event: (name, data) => {
-      const ev = new Event(name, data)
-      cb(ev, null)
-    },
-
-    // TODO: thoughts around how to have enumerated event names as methods
-    pageView: (data) => {
-      const ev = new Event('pageView', data)
-      cb(ev, null)
-    }
-  }
-}
-
-export default Tracker

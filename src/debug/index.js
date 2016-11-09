@@ -7,7 +7,7 @@ if (__DEV__) {
   SERVER_HOST = 'http://localhost:5331/'
 }
 
-let __SSR__ = true
+let __SSR__ = false
 
 let PMX
 if (__SSR__) {
@@ -28,7 +28,9 @@ window.PMX = PMX
 - HubID
 */
 
-PMX.track.pageView({ url: 'a' })
-PMX.track.pageView({ url: 'b' })
+PMX.track.event('USER_PROFILE', 'CREATE', { payload:'goes here' })
 
-PMX.track.event('someEvent', { x: 123 })
+console.log('==> all events:', PMX.track.options)
+
+// NOTE: this will throw an error because it doesnt match the proto.js definition
+// PMX.track.event('bad', 'CREATE', { payload:'goes here' })
