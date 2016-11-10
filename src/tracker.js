@@ -18,7 +18,7 @@ export default Tracker
 class Event {
   constructor(moduleKey, eventKey, data) {
     this.module = moduleKey // module key
-    this.name = eventKey    // event key
+    this.event_type = eventKey    // event key
 
     this.ts = (new Date()).getTime()
     this.url = window.location.href
@@ -32,9 +32,9 @@ class Event {
     if (k == undefined) {
       throw `metrix: ${this.module} is an unsupported module.`
     }
-    k = proto.events.Event[this.name]
+    k = proto.events.Event[this.event_type]
     if (k == undefined) {
-      throw `metrix: ${this.name} is an unsupported event.`
+      throw `metrix: ${this.event_type} is an unsupported event.`
     }
   }
 
@@ -43,7 +43,7 @@ class Event {
     return {
       ts: this.ts,
       module: this.module,
-      name: this.name, // TODO: name...?
+      event_type: this.event_type,
       url: this.url,
       data: this.data
     }
