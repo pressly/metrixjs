@@ -17,20 +17,9 @@ if (__SSR__) {
 }
 window.PMX = PMX
 
-// TODO, track..
-/*
-- ClientID
-- SessionID
-- SessionQS
-
-[]events:
-- Module (id) - Hub ***
-- HubID
-*/
-
 PMX.track.event('USER_PROFILE', 'CREATE', { payload:'goes here' })
 
 console.log('==> all events:', PMX.track.options)
 
-// NOTE: this will throw an error because it doesnt match the proto.js definition
+// NOTE: this will log an error because it doesnt match the proto.js definition
 // PMX.track.event('bad', 'CREATE', { payload:'goes here' })
