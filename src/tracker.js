@@ -1,8 +1,9 @@
-// @flow weak
+// @flow
+import type {JSONData} from './json'
 
 let proto = require('exports?proto!imports?goog=>{provide:function(){}},proto=>{events:{}}!./proto.js')
 
-const Tracker = (cb) => {
+const Tracker: Function = (cb: Function) => {
   return {
     event: (moduleKey, eventKey, data) => {
       const ev = new Event(moduleKey, eventKey, data)
@@ -15,8 +16,14 @@ const Tracker = (cb) => {
 
 export default Tracker
 
-class Event {
-  constructor(moduleKey, eventKey, data) {
+export class Event {
+  module: number
+  event_type: number
+  ts: number
+  url: string
+  data: JSONData
+
+  constructor(moduleKey: number, eventKey: number, data: JSONData) {
     this.module = moduleKey // module key
     this.event_type = eventKey    // event key
 
@@ -27,8 +34,8 @@ class Event {
     this.verifyKeys()
   }
 
-  verifyKeys() {
-    let k = proto.events.Module[this.module]
+  verifyKeys():void {
+    let k: number = proto.events.Module[this.module]
     if (k == undefined) {
       throw `metrix: ${this.module} is an unsupported module.`
     }
@@ -39,7 +46,7 @@ class Event {
   }
 
   // event json
-  json() {
+  json(): {ts: number, module: number, event_type: number, url: string, data: JSONData} {
     return {
       ts: this.ts,
       module: this.module,

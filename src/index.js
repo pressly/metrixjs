@@ -1,3 +1,5 @@
+// @flow
+
 // Metrix.js is a user behaviour tracker for Pressly apps. User data is
 // transmitted to the Pressly API server, however, it's in fact being
 // proxied to the Pressly Metrix web service.
@@ -8,30 +10,31 @@
 
 import * as util from './util'
 import Tracker from './tracker'
+import type {Event} from './tracker'
 
 // Request path to POST event payloads on the server
-const SERVER_ENDPOINT = '/metrix'
+const SERVER_ENDPOINT: string = '/metrix'
 
 // Long-term persisted client id fingerprint
-const CLIENT_ID_KEY = '_pmx'
-const CLIENT_ID_EXPIRY = 2*365*24*60 // 2 years in minutes
-const CLIENT_ID_PARAM = 'cid' // check query string for a client id
+const CLIENT_ID_KEY: string = '_pmx'
+const CLIENT_ID_EXPIRY: number = 2*365*24*60 // 2 years in minutes
+const CLIENT_ID_PARAM: string = 'cid' // check query string for a client id
 
 // Short-lived cookie to identify a single visit from a client.
 // The session ID is actually the unix timestamp of the session start time.
-const SESSION_ID_KEY = '_pmxb'
-const SESSION_ID_EXPIRY = 15 // 15 minutes
+const SESSION_ID_KEY: string = '_pmxb'
+const SESSION_ID_EXPIRY: number = 15 // 15 minutes
 
 // Short-lived query string stored in the cookie in case a user removes
 // them from the url. We do this to persist UTM query params, as well 
 // other potential query params we want to look out for. This cookie works
 // in coordination with the session cookie above.
-const SESSION_QS_KEY = '_pmxz'
-const SESSION_QS_EXPIRY = SESSION_ID_EXPIRY
+const SESSION_QS_KEY: string = '_pmxz'
+const SESSION_QS_EXPIRY: number = SESSION_ID_EXPIRY
 
 // Amount of time given to batch work
-const DISPATCH_INTERVAL = 100 // 100 milliseconds
-const IDENTIFY_INTERVAL = 1*60*1000 // 1 minute in milliseconds
+const DISPATCH_INTERVAL: number = 100 // 100 milliseconds
+const IDENTIFY_INTERVAL: number = 1*60*1000 // 1 minute in milliseconds
 
 // TODO: grab the client id from the query param if its there
 // check to make sure it has a . and X length..
@@ -42,8 +45,17 @@ const IDENTIFY_INTERVAL = 1*60*1000 // 1 minute in milliseconds
 // Metrix is the core interface to identifying, tracking and dispatching
 // user behaviour events.
 export class Metrix {
+  serverHost: string
+  metrixURL: string
+  timezoneOffset: number
+  track: Function
+  sync: Function
+  queue: Array<Event>
+  clientID: string
+  sessionID: string
+  sessionQS: string
 
-  constructor(serverHost) {
+  constructor(serverHost: string) {
 
     // api server host
     this.serverHost = serverHost.replace(/\/$/, '')
@@ -69,12 +81,12 @@ export class Metrix {
   }
 
   // identify will find, create or update the user identity cookies.
-  identify = () => {
-    let cookieVals = util.getCookies([ CLIENT_ID_KEY, SESSION_ID_KEY, SESSION_QS_KEY ])
+  identify: Function = () => {
+    let cookieVals: {[id:string]: string} = util.getCookies([ CLIENT_ID_KEY, SESSION_ID_KEY, SESSION_QS_KEY ])
 
     // Find an existing user identity cookie or create a new one.
     // Also, always update the expiry for the client id cookie.
-    let clientID = cookieVals[CLIENT_ID_KEY]
+    let clientID: string = cookieVals[CLIENT_ID_KEY]
     if (clientID == '') {
       clientID = util.generateUID()
     }
@@ -82,7 +94,7 @@ export class Metrix {
     
     // Track the user session, if it expires, make a new one.
     // Also, always update the expiry for the session id cookie.
-    let sessionID = cookieVals[SESSION_ID_KEY]
+    let sessionID: string = cookieVals[SESSION_ID_KEY]
     if (sessionID == '') {
       sessionID = util.generateUID()
     }
@@ -91,7 +103,7 @@ export class Metrix {
     // Track the session QS (Query String), this will have utm params
     // that are important to report. We store them in a cookie for the
     // session lifetime in case the qs changes during the session.
-    let sessionQS = cookieVals[SESSION_QS_KEY]
+    let sessionQS: string = cookieVals[SESSION_QS_KEY]
     if (sessionQS == '') {
       sessionQS = window.location.search.substr(1)
     }
@@ -112,7 +124,7 @@ export class Metrix {
     }
   }
 
-  enqueue = (event, err) => {
+  enqueue = (event: Event) => {
     util.log('tracking', event)
     this.queue.push(event)
     this.sync()
@@ -140,7 +152,7 @@ export class Metrix {
 
     // Send the payload over to the metrix endpoint
     fetch(this.metrixURL, {
-      method: 'post',
+      method: 'POST',
       mode: 'cors',
       credentials: 'include',
       headers: new Headers({
@@ -159,6 +171,7 @@ export class Metrix {
 }
 
 export class MetrixNoop {
+  track: {}
   constructor() {
     this.track = new Proxy({}, {
       get: (target, name) => {
