@@ -23,7 +23,7 @@ class Event {
     this.module = moduleKey    // module key
     this.eventType = eventKey // event key
 
-    this.ts = (new Date()).getTime()
+    this.ts = new Date()
     this.url = window.location.href
     this.data = data
 
