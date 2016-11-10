@@ -1,5 +1,8 @@
 // @flow weak
+/* eslint no-undef: 0 */
 
+// Import the ./proto.js file while injecting some code to declare the global variables
+// in the generated code, as well as export those variables.
 let proto = require('exports?proto!imports?goog=>{provide:function(){}},proto=>{events:{}}!./proto.js')
 
 const Tracker = (cb) => {
