@@ -97,7 +97,7 @@ export class Metrix {
     }
     util.setCookie(SESSION_QS_KEY, sessionQS, SESSION_QS_EXPIRY)
 
-    console.log('=>', clientID)
+    util.log('clientID:', clientID)
 
     this.clientID = clientID
     this.sessionID = sessionID
@@ -113,7 +113,7 @@ export class Metrix {
   }
 
   enqueue = (event, err) => {
-    util.log('tracking', event)
+    util.log('tracking:', event)
     this.queue.push(event)
     this.sync()
   }
