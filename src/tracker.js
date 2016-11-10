@@ -20,8 +20,8 @@ export default Tracker
 
 class Event {
   constructor(moduleKey, eventKey, data) {
-    this.module = moduleKey // module key
-    this.event_type = eventKey    // event key
+    this.module = moduleKey    // module key
+    this.event_type = eventKey // event key
 
     this.ts = (new Date()).getTime()
     this.url = window.location.href
