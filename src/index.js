@@ -149,7 +149,9 @@ export class Metrix {
       }),
       body: JSON.stringify(payload)
     }).then((resp) => {
-      return resp.json()
+      if (resp.status !== 204) { // 204 SUCCESS will not send a json response payload
+        return resp.json()
+      }
     }).then((result) => {
       util.log('metrix dispatch response:', result)
     }).catch((err) => {
