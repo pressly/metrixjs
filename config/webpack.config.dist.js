@@ -8,7 +8,8 @@ const config = {
 
   output: {
     path: './dist',
-    filename: 'metrix.js'
+    filename: 'metrix.js',
+    libraryTarget: 'commonjs2'
   },
 
   module: {
@@ -23,15 +24,15 @@ const config = {
     new webpack.DefinePlugin({
       __DEV__: process.env.NODE_ENV !== 'production',
       'process.env': JSON.stringify(process.env)
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      comments: false,
-      mangle: true,
-      minimize: true
-    })
+    })//,
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   },
+    //   comments: false,
+    //   mangle: true,
+    //   minimize: true
+    // })
   ]
 }
 
