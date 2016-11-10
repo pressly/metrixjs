@@ -2,9 +2,9 @@
 import { Metrix, MetrixNoop } from 'metrix'
 
 // NOTE: apps using metrix.js must set their own server host
-let SERVER_HOST = 'http://api.pressly.com/'
+let SERVER_HOST = 'https://staging-api.pressly.com/'
 if (__DEV__) {
-  SERVER_HOST = 'http://localhost:5331/'
+  // SERVER_HOST = 'http://localhost:5331/'
 }
 
 let __SSR__ = false
