@@ -4,7 +4,7 @@
 //
 // See https://www.optimizesmart.com/google-analytics-cookies-ultimate-guide/
 // for a detailed look at how GA cookies works, which is also the basis of this
-// implementation. We also implement UTM parameter support, see 
+// implementation. We also implement UTM parameter support, see
 
 import * as util from './util'
 import Tracker from './tracker'
@@ -23,7 +23,7 @@ const SESSION_ID_KEY = '_pmxb'
 const SESSION_ID_EXPIRY = 15 // 15 minutes
 
 // Short-lived query string stored in the cookie in case a user removes
-// them from the url. We do this to persist UTM query params, as well 
+// them from the url. We do this to persist UTM query params, as well
 // other potential query params we want to look out for. This cookie works
 // in coordination with the session cookie above.
 const SESSION_QS_KEY = '_pmxz'
@@ -79,7 +79,7 @@ export class Metrix {
       clientID = util.generateUID()
     }
     util.setCookie(CLIENT_ID_KEY, clientID, CLIENT_ID_EXPIRY)
-    
+
     // Track the user session, if it expires, make a new one.
     // Also, always update the expiry for the session id cookie.
     let sessionID = cookieVals[SESSION_ID_KEY]
@@ -121,7 +121,7 @@ export class Metrix {
   dispatch = () => {
     if (this.queue.length == 0) return
     util.log('dispatching...', this.queue)
-    
+
     // payload setup for our batch of events
     const payload = {
       cid: this.clientID,
@@ -168,6 +168,6 @@ export class MetrixNoop {
   }
 }
 
-if (typeof window.fetch === 'undefined') {
+if (window && typeof window.fetch === 'undefined') {
   throw 'metrix.js requires fetch(), check your runtime and try again.'
 }
