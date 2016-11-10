@@ -168,6 +168,6 @@ export class MetrixNoop {
   }
 }
 
-if (window && typeof window.fetch === 'undefined') {
+if (typeof window !== 'undefined' && typeof window.fetch === 'undefined') {
   throw 'metrix.js requires fetch(), check your runtime and try again.'
 }
