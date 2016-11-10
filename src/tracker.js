@@ -33,11 +33,11 @@ class Event {
   verifyKeys() {
     let k = proto.events.Module[this.module]
     if (k == undefined) {
-      throw `metrix: ${this.module} is an unsupported module.`
+      console.error(`metrix: ${this.module} is an unsupported module.`)
     }
     k = proto.events.Event[this.event_type]
     if (k == undefined) {
-      throw `metrix: ${this.event_type} is an unsupported event.`
+      console.error(`metrix: ${this.event_type} is an unsupported event.`)
     }
   }
 
