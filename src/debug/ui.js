@@ -2,14 +2,17 @@ import { PMX, actions } from './app'
 import * as util from './util'
 const Vue = window.Vue
 
-// TODO
-let session = util.getSession()
 
-new Vue({
+let fingerprintUI = new Vue({
   el: '#fingerprint',
   data: {
-    username: session.username,
+    username: null,
     clientID: null // TODO
+  },
+  mounted: () => {
+    util.getSession().then((res) => {
+      fingerprintUI.$data.username = res.username
+    })
   }
 })
 

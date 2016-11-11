@@ -24,6 +24,13 @@ export { PMX }
 // NOTE: this will log an error because it doesnt match the proto.js definition
 // PMX.track.event('bad', 'CREATE', { payload:'goes here' })
 
+// ACTIONS - below are the combination of actions we have for our simulation
+// just add some, and buttons will appear.
+//
+// Each entry is in the form of: [ <module>, <event>, [ <payload keys to include...> ] ]
+//
+// Payload keys are grabbed from the default payload values fieldset
+
 export const actions = {
   'Hub page view':      [ 'HUB',              'VIEW',       ['hub_id'] ],
   'Hub page view 2':    [ 'HUB_STREAM',       'VIEW',       ['hub_id'] ],
