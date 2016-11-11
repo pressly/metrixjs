@@ -8,7 +8,8 @@ const config = {
 
   output: {
     path: './dist',
-    filename: 'metrix.js'
+    filename: 'metrix.js',
+    libraryTarget: 'commonjs2'
   },
 
   module: {

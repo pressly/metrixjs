@@ -1,6 +1,9 @@
 // @flow
+/* eslint no-undef: 0 */
 import type {JSONData} from './json'
 
+// Import the ./proto.js file while injecting some code to declare the global variables
+// in the generated code, as well as export those variables.
 let proto = require('exports?proto!imports?goog=>{provide:function(){}},proto=>{events:{}}!./proto.js')
 
 const Tracker: Function = (cb: Function) => {
@@ -18,16 +21,15 @@ export default Tracker
 
 export class Event {
   module: number
-  event_type: number
+  eventType: number
   ts: number
   url: string
   data: JSONData
 
   constructor(moduleKey: number, eventKey: number, data: JSONData) {
     this.module = moduleKey // module key
-    this.event_type = eventKey    // event key
-
-    this.ts = (new Date()).getTime()
+    this.eventType = eventKey    // event key
+    this.ts = new Date()
     this.url = window.location.href
     this.data = data
 
@@ -37,11 +39,11 @@ export class Event {
   verifyKeys():void {
     let k: number = proto.events.Module[this.module]
     if (k == undefined) {
-      throw `metrix: ${this.module} is an unsupported module.`
+      console.error(`metrix: ${this.module} is an unsupported module.`)
     }
-    k = proto.events.Event[this.event_type]
+    k = proto.events.Event[this.eventType]
     if (k == undefined) {
-      throw `metrix: ${this.event_type} is an unsupported event.`
+      console.error(`metrix: ${this.eventType} is an unsupported event.`)
     }
   }
 
@@ -50,7 +52,7 @@ export class Event {
     return {
       ts: this.ts,
       module: this.module,
-      event_type: this.event_type,
+      event_type: this.eventType,
       url: this.url,
       data: this.data
     }
