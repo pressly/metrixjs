@@ -1,12 +1,38 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>metrixjs debug app</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>metrixjs debug app</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<style>
+.user {
+  color: green;
+}
+</style>
 </head>
+
 <body>
-  <div id="app"></div>
-  buttons, etc..
+<div id="app">
+
+  <fieldset id="fingerprint">
+    <legend>Fingerprint</legend>
+    User: <span>{{ username }}</span><br>
+    Client ID: <span>{{ clientID }}</span><br>
+  </fieldset>
+
+  <fieldset id="default-payload-values">
+    <legend>Default Payload Values</legend>
+    HubID: <input v-model="hub_id"><br>
+    PostID: <input v-model="post_id"><br>
+  </fieldset>
+
+  <fieldset id="actions">
+    <legend>Actions</legend>
+    <div id="action-buttons"></div>
+  </fieldset>
+
+</div>
+
 </body>
 </html>
