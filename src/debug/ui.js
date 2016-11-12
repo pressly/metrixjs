@@ -11,7 +11,7 @@ let fingerprintUI = new Vue({
   },
   mounted: () => {
     util.getSession().then((res) => {
-      fingerprintUI.$data.username = res.username
+      fingerprintUI.username = res.username
     })
   }
 })
@@ -49,7 +49,7 @@ new Vue({
       let payload = {}
 
       for (let k of payloadKeys) {
-        let v = defaultPayloadValues.$data[k]
+        let v = defaultPayloadValues[k]
         if (v !== undefined) {
           payload[k] = v
         }
