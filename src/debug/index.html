@@ -8,25 +8,33 @@
 <style>
 </style>
 </head>
-
 <body>
+
 <div id="app">
-  <fieldset id="fingerprint">
-    <legend>Fingerprint</legend>
-    User: <span>{{ username }}</span><br>
-    Client ID: <span>{{ clientID }}</span><br>
-  </fieldset>
+  <fingerprint inline-template>
+    <fieldset id="fingerprint">
+      <legend>Fingerprint</legend>
+      User: <span>{{ username }}</span><br>
+      Client ID: <span>{{ clientID }}</span><br>
+    </fieldset>
+  </fingerprint>
 
-  <fieldset id="default-payload-values">
-    <legend>Default Payload Values</legend>
-    HubID: <input v-model="hub_id"><br>
-    PostID: <input v-model="post_id"><br>
-  </fieldset>
+  <default-payload-values inline-template>
+    <fieldset id="default-payload-values">
+      <legend>Default Payload Values</legend>
+      HubID: <input v-model="hub_id"><br>
+      PostID: <input v-model="post_id"><br>
+    </fieldset>
+  </default-payload-values>
 
-  <fieldset id="actions">
-    <legend>Actions</legend>
-    <div id="action-buttons"></div>
-  </fieldset>
+  <actions inline-template>
+    <fieldset id="actions">
+      <legend>Actions</legend>
+      <template v-for="(actionValue, actionKey) in actions">
+        <button @click="triggerMetric(actionKey)">{{ actionKey }}</button><br>
+      </template>
+    </fieldset>
+  </actions>
 </div>
 
 </body>
