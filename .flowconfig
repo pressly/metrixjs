@@ -1,7 +1,9 @@
 [ignore]
 
 [include]
+node_modules/
 
 [libs]
+decls/
 
 [options]
