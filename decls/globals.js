@@ -1,3 +1,3 @@
 // @flow
 
-declare var __DEV__: bool;
+declare var __DEV__: boolean

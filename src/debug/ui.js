@@ -27,11 +27,11 @@ Vue.component('default-payload-values', {
     }
   },
   watch: {
-    hub_id: function(newHubID) {
-      store.hub_id = newHubID
+    hub_id: function(v) {
+      store.hub_id = v
     },
-    post_id: function(newPostID) {
-      store.post_id = newPostID
+    post_id: function(v) {
+      store.post_id = v
     }
   }
 })
