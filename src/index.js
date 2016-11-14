@@ -10,7 +10,7 @@
 
 import * as util from './util'
 import Tracker from './tracker'
-import type {Event} from './tracker'
+import type { Event } from './tracker'
 
 // Request path to POST event payloads on the server
 const SERVER_ENDPOINT: string = '/metrix'

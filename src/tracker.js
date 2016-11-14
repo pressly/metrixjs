@@ -1,6 +1,6 @@
 // @flow
 /* eslint no-undef: 0 */
-import type {JSONData} from './json'
+import type { JSONData } from './util'
 
 // Import the ./proto.js file while injecting some code to declare the global variables
 // in the generated code, as well as export those variables.

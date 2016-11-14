@@ -1,4 +1,9 @@
 /* eslint no-undef: 0 */
+
+export type JSONData = | string | number | boolean | null | JSONObject | JSONArray
+export type JSONObject = { [key:string]: JSONData }
+export type JSONArray = Array<JSONData>
+
 export const log = (...args) => {
   if (__DEV__) {
     console.log.apply(null, args)
