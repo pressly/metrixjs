@@ -8,7 +8,9 @@ Vue.component('fingerprint', {
   data: function() {
     return {
       username: null,
-      clientID: null
+      cid: null,
+      sid: null,
+      sqs: null
     }
   },
   mounted: function() {
@@ -16,6 +18,9 @@ Vue.component('fingerprint', {
     util.getSession().then((res) => {
       comp.username = res.username
     })
+    this.cid = window.PMX.clientID
+    this.sid = window.PMX.sessionID
+    this.sqs = window.PMX.sessionQS
   }
 })
 
