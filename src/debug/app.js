@@ -36,14 +36,12 @@ export const actions = {
   'Hub: visit a collection': ['HUB_STREAM', 'VIEW', ['collection_id']], // TODO: how do we know collection?
 
   'Hub: visit team': ['HUB_TEAM', 'VIEW', ['hub_id']],
-  'Hub: new member joins': ['HUB_TEAM', '???', []],
-  'Hub: invite new member': ['HUB_TEAM', '???', []],
+  'Hub: new member joins': ['HUB_TEAM', '???', []], // TODO
+  'Hub: invite new member': ['HUB_TEAM', '???', []], // TODO
 
   'Hub: update hub settings': ['HUB_SETTINGS', 'UPDATE', ['hub_id']],
 
-  // TODO: is this correct...? 
-  // shouldn't it be similar to viewing a post..?
-  'Hub: create new post': ['HUB', 'CREATE??', ['post_id']],
+  'Hub: create new post': ['HUB', 'CREATE??', ['post_id']], // TODO: correct?
   'Hub: update post': ['HUB', 'UPDATE??', ['post_id']],
   'Hub: delete post': ['HUB', 'DELETE??', ['post_id']],
 
@@ -54,6 +52,7 @@ export const actions = {
 
   'Hub: share a post from stream': ['HUB_STREAM', 'POST_SHARE', ['hub_id', 'post_id']],
   'Hub: share a post from spotlight': ['HUB_SPOTLIGHT', 'POST_SHARE', ['hub_id', 'post_id']],
+  'Hub: schedule a share from spotlight': ['HUB_SPOTLIGHT', 'POST_SHARE???', ['hub_id', 'post_id']], // TODO, prob need POST_SHARE_SCHEDULE
 
   'Hub: like a post from stream': ['HUB_STREAM', 'POST_LIKE', ['post_id']],
   'Hub: like a post from spotlight': ['HUB_SPOTLIGHT', 'POST_LIKE', ['post_id']],
@@ -61,6 +60,35 @@ export const actions = {
   'Hub: unlike a post from spotlight': ['HUB_SPOTLIGHT', 'POST_UNLIKE', ['post_id']],
 
   'Hub: comment on a post from spotlight': ['HUB_SPOTLIGHT', 'POST_COMMENT', ['post_id']],
+
+  'Hub>Newsletters: create a new newsletter': ['HUB_NEWSLETTERS', 'CREATE', ['hub_id']], // TODO...
+  'Hub>Newsletters: send a newsletter': ['HUB_NEWSLETTERS', '???', ['hub_id']], // TODO: object_id?
+  'Hub>Newsletters: delete a newsletter': ['HUB_NEWSLETTERS', 'DELETE', ['hub_id']], // TODO: object_id
+
+  'Hub>Feeds: create new feed': ['HUB_FEEDS', 'CREATE', ['hub_id']],
+  'Hub>Feeds: view a feed': ['HUB_FEEDS', 'VIEW', ['hub_id']],
+  'Hub>Feeds: update a feed': ['HUB_FEEDS', 'UPDATE', ['hub_id']],
+  'Hub>Feeds: delete a feed': ['HUB_FEEDS', 'DELETE', ['hub_id']],
+  // TODO: we can't actually tell what is the most popular feed source user's query
+
+  'Hub>Analytics: view analytics': ['HUB_ANALYTICS', 'VIEW', ['hub_id']],
+
+  'Hub>Embeds: view embeds': ['HUB_EMBEDS', '????', ['hub_id']],
+  'Hub>Embeds: copy snippet stream': ['HUB_EMBEDS', '????', ['hub_id']],
+  'Hub>Embeds: copy snippet gallery': ['HUB_EMBEDS', '????', ['hub_id']],
+  'Hub>Embeds: copy snippet playlist': ['HUB_EMBEDS', '????', ['hub_id']],
+
+  'Org: view org page': ['ORG_PROFILE', 'VIEW', ['account_id']],
+  'Org: edit settings': ['ORG_SETTINGS', 'UPDATE', ['account_id']],
+  'Org: view hubs': ['ORG_PROFILE', 'VIEW', []], // TODO: .. how to know they looked at "hubs" tab..?
+  'Org: view members': ['ORG_PROFILE', 'VIEW', []], // TODO ...?
+  'Org: view posts': ['ORG_PROFILE', 'VIEW', []], // TODO ...? probably need ORG_PROFILE_POSTS etc..
+
+  'User: view org page': ['ORG_PROFILE', 'VIEW', ['account_id']],
+  'User: edit settings': ['ORG_SETTINGS', 'UPDATE', ['account_id']],
+  'User: view hubs': ['ORG_PROFILE', 'VIEW', []], // TODO: .. how to know they looked at "hubs" tab..?
+  'User: view members': ['ORG_PROFILE', 'VIEW', []], // TODO ...?
+  'User: view posts': ['ORG_PROFILE', 'VIEW', []], // TODO ...? probably need USER_PROFILE_POSTS etc..
 
   // TODO: we don't actually know which social provider was most effective..
   'Login via Password FAIL': ['LOGIN', 'PASSWORD_LOGIN_FAIL', []],
