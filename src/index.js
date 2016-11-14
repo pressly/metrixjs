@@ -41,6 +41,10 @@ const IDENTIFY_INTERVAL: number = 1*60*1000 // 1 minute in milliseconds
 // set the cookie value (with presedence)
 //
 // TODO: use history API to remove the cid query param
+//
+// TODO: should we send an event every minute...? something about
+// a PING ..? but, we'll have to track the last module of the event
+// we sent, which tells us the last place they were, and maybe payload..?
 
 // Metrix is the core interface to identifying, tracking and dispatching
 // user behaviour events.
