@@ -8,7 +8,7 @@ let proto = require('exports?proto!imports?goog=>{provide:function(){}},proto=>{
 
 const Tracker: Function = (cb: Function) => {
   return {
-    event: (moduleKey, eventKey, data) => {
+    event: (moduleKey: string, eventKey: string, data: JSONData) => {
       const ev = new Event(moduleKey, eventKey, data)
       cb(ev, null)
     },
@@ -20,13 +20,13 @@ const Tracker: Function = (cb: Function) => {
 export default Tracker
 
 export class Event {
-  module: number
-  eventType: number
+  module: string
+  eventType: string
   ts: number
   url: string
   data: JSONData
 
-  constructor(moduleKey: number, eventKey: number, data: JSONData) {
+  constructor(moduleKey: string, eventKey: string, data: JSONData) {
     this.module = moduleKey // module key
     this.eventType = eventKey    // event key
     this.ts = new Date()
@@ -48,7 +48,7 @@ export class Event {
   }
 
   // event json
-  json(): {ts: number, module: number, event_type: number, url: string, data: JSONData} {
+  json(): {ts: number, module: string, event_type: string, url: string, data: JSONData} {
     return {
       ts: this.ts,
       module: this.module,

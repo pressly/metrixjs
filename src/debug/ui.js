@@ -22,8 +22,8 @@ Vue.component('fingerprint', {
 Vue.component('default-payload-values', {
   data: function() {
     return {
-      hub_id: '0',
-      post_id: '0'
+      hub_id: 0,
+      post_id: 0
     }
   },
   watch: {

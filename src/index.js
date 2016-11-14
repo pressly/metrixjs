@@ -132,8 +132,7 @@ export class Metrix {
 
   dispatch = () => {
     if (this.queue.length == 0) return
-    util.log('dispatching...', this.queue)
-
+    
     // payload setup for our batch of events
     const payload = {
       cid: this.clientID,
@@ -151,6 +150,7 @@ export class Metrix {
     this.queue = []
 
     // Send the payload over to the metrix endpoint
+    util.log('post to server:', payload)
     fetch(this.metrixURL, {
       method: 'POST',
       mode: 'cors',

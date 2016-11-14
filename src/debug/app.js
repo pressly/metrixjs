@@ -34,5 +34,15 @@ export { PMX }
 export const actions = {
   'Hub page view':      [ 'HUB',              'VIEW',       ['hub_id'] ],
   'Hub page view 2':    [ 'HUB_STREAM',       'VIEW',       ['hub_id'] ],
-  'Hub spotlight view': [ 'HUB_SPOTLIGHT',    'VIEW',       ['hub_id', 'post_id'] ]
+  'Hub spotlight view': [ 'HUB_SPOTLIGHT',    'VIEW',       ['hub_id', 'post_id'] ],
+
+  'Hub index view':              [ 'HUB', 'VIEW', [ 'hub_id'] ],
+
+  // NOT SUPPORTED:
+  // 'Hub slab click (post view)':  [ 'HUB_STREAM', 'VIEW', ['hub_id','post_id']],
+
+
+  'Hub view a post':             ['HUB_SPOTLIGHT', 'VIEW',    ['hub_id','post_id']],
+
+  'Hub view a post to external': ['HUB_STREAM',    'VIEW',    ['hub_id','post_id']]
 }
