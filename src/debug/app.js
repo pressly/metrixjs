@@ -11,9 +11,9 @@ let __SSR__ = false
 
 let PMX
 if (__SSR__) {
-  PMX = new MetrixNoop(SERVER_HOST)
+  PMX = new MetrixNoop(SERVER_HOST, 'webapp-v4.6.0')
 }else {
-  PMX = new Metrix(SERVER_HOST)
+  PMX = new Metrix(SERVER_HOST, 'webapp-v4.6.0')
 }
 window.PMX = PMX
 export { PMX }

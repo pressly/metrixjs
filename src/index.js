@@ -53,6 +53,7 @@ const IDENTIFY_INTERVAL: number = 1*60*1000 // 1 minute in milliseconds
 // user behaviour events.
 export class Metrix {
   serverHost: string
+  appVersion: string
   metrixURL: string
   timezoneOffset: number
   track: Function
@@ -62,11 +63,16 @@ export class Metrix {
   sessionID: string
   sessionQS: string
 
-  constructor(serverHost: string) {
+  constructor(serverHost: string, appVersion: string) {
 
     // api server host
     this.serverHost = serverHost.replace(/\/$/, '')
     this.metrixURL = `${this.serverHost}${SERVER_ENDPOINT}`
+
+    this.appVersion = appVersion
+    if (appVersion == '') {
+      console.error('metrix: appVersion is required.')
+    }
 
     // Identify the user with a long and short lived fingerprint.
     // As well, setup an interval to update the identity while a
@@ -142,6 +148,7 @@ export class Metrix {
     
     // payload setup for our batch of events
     const payload = {
+      v: this.appVersion,
       cid: this.clientID,
       sid: this.sessionID,
       sqs: this.sessionQS,

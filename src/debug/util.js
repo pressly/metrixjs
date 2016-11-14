@@ -9,8 +9,6 @@ export const getSession = () => {
     credentials: 'include'
   }).then((resp) => {
     return resp.json()
-  // }).then((result) => {
-  //   return result
   }).catch((err) => {
     console.error(err)
   })
