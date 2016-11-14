@@ -33,24 +33,24 @@ export { PMX }
 
 export const actions = {
   'Hub: visit hub index': ['HUB', 'VIEW', ['hub_id']],
-
-  'Hub: visit a post': ['HUB_SPOTLIGHT', 'VIEW', ['hub_id','post_id']],
-
-  // Should be sent from pres.ly - in the case of https://pressly.com/salesforce/contenthub
-  'Hub: visit an external post from hub stream': ['EXTERNAL', 'VIEW', ['hub_id','post_id']],
+  'Hub: visit a collection': ['HUB_STREAM', 'VIEW', ['collection_id']], // TODO: how do we know collection?
 
   'Hub: visit team': ['HUB_TEAM', 'VIEW', ['hub_id']],
-
-  'Hub: update hub settings': ['HUB_SETTINGS', 'UPDATE', ['hub_id']],
-
   'Hub: new member joins': ['HUB_TEAM', '???', []],
   'Hub: invite new member': ['HUB_TEAM', '???', []],
+
+  'Hub: update hub settings': ['HUB_SETTINGS', 'UPDATE', ['hub_id']],
 
   // TODO: is this correct...? 
   // shouldn't it be similar to viewing a post..?
   'Hub: create new post': ['HUB', 'CREATE??', ['post_id']],
   'Hub: update post': ['HUB', 'UPDATE??', ['post_id']],
   'Hub: delete post': ['HUB', 'DELETE??', ['post_id']],
+
+  'Hub: visit a post': ['HUB_SPOTLIGHT', 'VIEW', ['hub_id','post_id']],
+
+  // Should be sent from pres.ly - in the case of https://pressly.com/salesforce/contenthub
+  'Hub: visit an external post from hub stream': ['EXTERNAL', 'VIEW', ['hub_id','post_id']],
 
   'Hub: share a post from stream': ['HUB_STREAM', 'POST_SHARE', ['hub_id', 'post_id']],
   'Hub: share a post from spotlight': ['HUB_SPOTLIGHT', 'POST_SHARE', ['hub_id', 'post_id']],
@@ -61,11 +61,6 @@ export const actions = {
   'Hub: unlike a post from spotlight': ['HUB_SPOTLIGHT', 'POST_UNLIKE', ['post_id']],
 
   'Hub: comment on a post from spotlight': ['HUB_SPOTLIGHT', 'POST_COMMENT', ['post_id']],
-
-
-
-  // *** TODO ***
-  // 'Hub: visit a collection': ['HUB_STREAM', 'VIEW', ['collection_id']]
 
   // TODO: we don't actually know which social provider was most effective..
   'Login via Password FAIL': ['LOGIN', 'PASSWORD_LOGIN_FAIL', []],

@@ -45,6 +45,9 @@ const IDENTIFY_INTERVAL: number = 1*60*1000 // 1 minute in milliseconds
 // TODO: should we send an event every minute...? something about
 // a PING ..? but, we'll have to track the last module of the event
 // we sent, which tells us the last place they were, and maybe payload..?
+//
+// TODO: record/dispatch the app version with each payload, this will help
+// us understand blue-suede vs mobile vs embed, etc..
 
 // Metrix is the core interface to identifying, tracking and dispatching
 // user behaviour events.
