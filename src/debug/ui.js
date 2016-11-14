@@ -28,7 +28,10 @@ Vue.component('default-payload-values', {
   data: function() {
     return {
       hub_id: 0,
-      post_id: 0
+      post_id: 0,
+      account_id: 0,
+      object_id: 0,
+      collection_id: 0
     }
   },
   watch: {
@@ -37,6 +40,15 @@ Vue.component('default-payload-values', {
     },
     post_id: function(v) {
       store.post_id = v
+    },
+    account_id: function(v) {
+      store.account_id = v
+    },
+    object_id: function(v) {
+      store.object_id = v
+    },
+    collection_id: function(v) {
+      store.collection_id = v
     }
   }
 })

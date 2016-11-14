@@ -24,7 +24,7 @@ running on http://localhost:4000/
 //
 //    blue suede: 'webapp-v4.6.0'
 // native mobile: 'mobile-v5.0.0'
-//        embed:  'embed-v2.0.0'
+//         embed: 'embed-v2.0.0'
 let APP_VERSION = 'webapp-v4.6.0'
 
 // Metrix is thet tracker that will send events to the Pressly API (SERVER_HOST).

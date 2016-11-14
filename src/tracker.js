@@ -24,6 +24,10 @@ export class Event {
   eventType: string
   ts: number
   url: string
+  hub_id: number
+  post_id: number
+  account_id: number
+  object_id: number
   data: JSONData
 
   constructor(moduleKey: string, eventKey: string, data: JSONData) {
@@ -48,13 +52,33 @@ export class Event {
   }
 
   // event json
-  json(): {ts: number, module: string, event_type: string, url: string, data: JSONData} {
-    return {
+  json() {
+    let payload = {
       ts: this.ts,
       module: this.module,
       event_type: this.eventType,
-      url: this.url,
-      data: this.data
+      url: this.url
     }
+
+    // Prepare payload data in a particular way for server
+    if (this.data.hub_id !== undefined) {
+      payload.hub_id = this.data.hub_id
+      delete this.data.hub_id
+    }
+    if (this.data.post_id !== undefined) {
+      payload.post_id = this.data.post_id
+      delete this.data.post_id
+    }
+    if (this.data.account_id !== undefined) {
+      payload.account_id = this.data.account_id
+      delete this.data.account_id
+    }
+    if (this.data.object_id !== undefined) {
+      payload.object_id = this.data.object_id
+      delete this.data.object_id
+    }
+    payload.data = this.data
+
+    return payload
   }
 }

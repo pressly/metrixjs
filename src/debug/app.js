@@ -33,7 +33,7 @@ export { PMX }
 
 export const actions = {
   'Hub: visit hub index': ['HUB', 'VIEW', ['hub_id']],
-  'Hub: visit a collection': ['HUB_STREAM', 'VIEW', ['collection_id']], // TODO: how do we know collection?
+  'Hub: visit a collection': ['HUB_STREAM', 'VIEW', ['hub_id', 'collection_id']],
 
   'Hub: visit team': ['HUB_TEAM', 'VIEW', ['hub_id']],
   'Hub: new member joins': ['HUB_TEAM', '???', []], // TODO
