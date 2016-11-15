@@ -73,6 +73,10 @@ export class Event {
       payload.account_id = this.data.account_id
       delete this.data.account_id
     }
+    if (this.data.org_id !== undefined) {
+      payload.account_id = this.data.org_id
+      delete this.data.org_id
+    }
     if (this.data.object_id !== undefined) {
       payload.object_id = this.data.object_id
       delete this.data.object_id
