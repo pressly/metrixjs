@@ -31,7 +31,8 @@ proto.events.Module = {
   HUB_NEWSLETTERS: 407,
   HUB_ANALYTICS: 408,
   HUB_EMBEDS: 409,
-  FEED: 500
+  FEED: 500,
+  EXTERNAL: 600
 };
 
 /**
@@ -43,6 +44,7 @@ proto.events.Event = {
   VIEW: 2,
   UPDATE: 3,
   DELETE: 4,
+  OPEN: 5,
   PASSWORD_LOGIN_FAIL: 101,
   PASSWORD_LOGIN_OK: 102,
   SSO_LOGIN_FAIL: 103,
