@@ -4,7 +4,7 @@ import { Metrix, MetrixNoop } from 'metrix'
 let SERVER_HOST
 // SERVER_HOST = 'https://staging-api.pressly.com/'
 if (__DEV__) {
-  SERVER_HOST = 'http://localhost:5331/'
+  SERVER_HOST = 'https://loc.pressly.com:5331/'
 }
 
 let __SSR__ = false
@@ -30,9 +30,29 @@ export { PMX }
 // Each entry is in the form of: [ <module>, <event>, [ <payload keys to include...> ] ]
 //
 // Payload keys are grabbed from the default payload values fieldset
+/*
+{
+  "key": [
+    'LOGIN',              // module
+    'SOCIAL_LOGIN_FAIL',  // event
+    ['network'],          // required fields (from both "standard" and extra)
+    ['hub_id', 'org_id'], // optional fields (from both "standard" and extra)
+    {"key": val},         // example values of the non-standard, extra fields
+    'post_events',        // table in which the data will be stored - to generate testing query
+    'comment',            // extra information
+  ]
+}
+*/
 
 export const actions = {
-  'Hub: visit hub index': ['HUB', 'VIEW', ['hub_id']],
+  'view login page':['LOGIN', 'VIEW', [],['hub_id', 'org_id'], {}, 'events', ''],
+  'password login fail':['LOGIN', 'PASSWORD_LOGIN_FAIL', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
+  'password login success':['LOGIN', 'PASSWORD_LOGIN_OK', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],  
+  'SSO login fail':['LOGIN', 'SSO_LOGIN_FAIL', ['object_id'],['hub_id', 'org_id'], {}, 'events', 'object_id should be set to sso_config.id, set org_id when on custom login page, set hub_id when logging in while on a hub'],
+  'SSO login success':['LOGIN', 'SSO_LOGIN_OK', ['object_id'],['hub_id', 'org_id'], {}, 'events', 'object_id should be set to sso_config.id, set org_id when on custom login page, set hub_id when logging in while on a hub'],  
+  'social login fail':['LOGIN', 'SSO_LOGIN_FAIL', ['network'],['hub_id', 'org_id'], {'network': 'facebook'}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
+  'social login success':['LOGIN', 'SSO_LOGIN_OK', ['network'],['hub_id', 'org_id'], {'network': 'facebook'}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
+  /*'Hub: visit hub index': ['HUB', 'VIEW', ['hub_id']],
   'Hub: visit a collection': ['HUB_STREAM', 'VIEW', ['hub_id', 'collection_id']],
 
   'Hub: visit team': ['HUB_TEAM', 'VIEW', ['hub_id']],
@@ -103,5 +123,5 @@ export const actions = {
   'Signup: screen 2': ['SIGNUP', '???', []],
   'Signup: complete': ['SIGNUP', '???', []],
 
-  'Feed: visit index': ['FEED', 'VIEW', []]
+  'Feed: visit index': ['FEED', 'VIEW', []]*/
 }

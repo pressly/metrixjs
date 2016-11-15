@@ -6,6 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <style>
+  tr {
+    border-bottom: 1px solid #ddd;
+  }
+  td, th {
+    padding: 0.5em;
+    border-right: 1px solid #ddd;
+  }
 </style>
 </head>
 <body>
@@ -35,9 +42,34 @@
   <actions inline-template>
     <fieldset id="actions">
       <legend>Actions</legend>
-      <template v-for="(actionValue, actionKey) in actions">
-        <button @click="triggerMetric(actionKey)">{{ actionKey }}</button><br>
-      </template>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>module</th>
+            <th>event</th>
+            <th>required</th>
+            <th>optional</th>
+            <th>extra (both req and opt)</th>
+            <th>db table</th>
+            <th>comments</th>
+          </tr>
+        </thead>
+        <tbody>
+        <template v-for="(actionValue, actionKey) in actions">
+          <tr>
+            <td><button @click="triggerMetric(actionKey)">{{ actionKey }}</button></td>
+            <td>{{ actionValue[0] }}</td>
+            <td>{{ actionValue[1] }}</td>
+            <td>{{ actionValue[2] }}</td>
+            <td>{{ actionValue[3] }}</td>
+            <td>{{ actionValue[4] }}</td>
+            <td>{{ actionValue[5] }}</td>
+            <td>{{ actionValue[6] }}</td>
+          </tr>
+        </template>
+        </tbody>
+      </table>
     </fieldset>
   </actions>
 </div>

@@ -66,7 +66,7 @@ const config = {
 
 function getEntry() {
   const entry = {
-    app: [ path.join(SRC_PATH, 'debug/index.js') ]
+    app: ['babel-polyfill', path.join(SRC_PATH, 'debug/index.js') ]
   }
   entry.app.unshift(`webpack-dev-server/client?${PUBLIC_PATH}`)
   return entry

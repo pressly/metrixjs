@@ -30,6 +30,7 @@ Vue.component('default-payload-values', {
       hub_id: 0,
       post_id: 0,
       account_id: 0,
+      org_id: 0,
       object_id: 0,
       collection_id: 0
     }
@@ -43,6 +44,7 @@ Vue.component('default-payload-values', {
     },
     account_id: function(v) {
       store.account_id = v
+      store.org_id = v
     },
     object_id: function(v) {
       store.object_id = v
@@ -64,17 +66,59 @@ Vue.component('actions', {
       let action = actions[actionKey]
       let moduleKey = action[0]
       let eventKey = action[1]
-      let payloadKeys = action[2]
-      let payload = {}
+      let requiredPayloadFields = action[2]
+      let optionalPayloadFields = action[3]
+      let extraPayloadValues = action[4]
+      let dbTable = action[5]
+      let rowNum = 0
 
-      for (let k of payloadKeys) {
-        let v = store[k]
-        if (v !== undefined) {
-          payload[k] = v
+      function* generateCombinations(arr) {
+        function* doGenerateCombinations(offset, combo) {
+          yield combo;
+          for (let i = offset; i < arr.length; i++) {
+            yield* doGenerateCombinations(i + 1, combo.concat(arr[i]));
+          }
         }
+        yield* doGenerateCombinations(0, []);
       }
 
-      PMX.track.event(moduleKey, eventKey, payload)
+      let eventCount = 1
+      for (let i = 0; i < optionalPayloadFields.length; i++) {
+        eventCount = 2 * eventCount
+      } 
+
+      for (let combo of generateCombinations(optionalPayloadFields)) {
+        let payload = {}
+
+        for (let k of requiredPayloadFields) {
+          let v = extraPayloadValues[k]
+          if (v === undefined) {
+            v = store[k]
+          }          
+          if (v === undefined) {
+            console.error('missing required field "' + k + '" value')
+            continue            
+          }
+          payload[k] = v
+        }      
+        
+        rowNum++
+      
+        for (let k of combo) {          
+          let v = extraPayloadValues[k]
+          if (v === undefined) {
+             v = store[k]
+          }
+          if (v !== undefined) {
+            payload[k] = v
+          } else {
+            console.warn('undefined optional field "' + k + '" value')
+          }
+        }
+
+        PMX.track.event(moduleKey, eventKey, payload)
+        console.info(JSON.stringify(payload), '=>   SELECT * FROM ' + dbTable + ' ORDER BY ts DESC OFFSET ' + (eventCount - rowNum) + ' LIMIT 1;')
+      }
     }
   }
 })
