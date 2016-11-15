@@ -4,7 +4,7 @@ import { Metrix, MetrixNoop } from 'metrix'
 let SERVER_HOST
 // SERVER_HOST = 'https://staging-api.pressly.com/'
 if (__DEV__) {
-  SERVER_HOST = 'https://loc.pressly.com:5331/'
+  SERVER_HOST = 'http://localhost:5331/'
 }
 
 let __SSR__ = false
