@@ -48,6 +48,14 @@ Vue.component('default-payload-values', {
     },
     object_id: function(v) {
       store.object_id = v
+      store.feed_id = v
+      store.comment_id = v
+      store.share_id = v
+      store.addon_config_id = v
+      store.widget_id = v
+      store.invite_id = v
+      store.request_id = v
+      store.newsletter_id = v
     },
     collection_id: function(v) {
       store.collection_id = v

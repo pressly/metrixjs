@@ -136,25 +136,27 @@ export const actions = {
   'Hub settings CTAs: update CTA settings':['HUB_SETTINGS_CTA', 'UPDATE', ['hub_id', 'widget_id'], [], {}, 'events', ''],
   'Hub settings CTAs: delete CTA':['HUB_SETTINGS_CTA', 'DELETE', ['hub_id', 'widget_id'], [], {}, 'events', ''],
 
-  'Hub feeds: view CTA list':['HUB_SETTINGS_CTA', 'VIEW', ['hub_id'], [], {}, 'events', ''],
-  'Hub feeds: view CTA settings':['HUB_SETTINGS_CTA', 'VIEW', ['hub_id', 'widget_id'], [], {}, 'events', ''],
-  'Hub feeds: create CTA':['HUB_SETTINGS_CTA', 'CREATE', ['hub_id', 'widget_id'], [], {}, 'events', ''],
-  'Hub feeds: update CTA settings':['HUB_SETTINGS_CTA', 'UPDATE', ['hub_id', 'widget_id'], [], {}, 'events', ''],
-  'Hub feeds: delete CTA':['HUB_SETTINGS_CTA', 'DELETE', ['hub_id', 'widget_id'], [], {}, 'events', ''],
   /* TODO: Integrations */
-  /*  
 
+  'Hub feeds: view feed list':['HUB_FEEDS', 'VIEW', ['hub_id'], [], {}, 'events', ''],
+  'Hub feeds: search':['HUB_FEEDS', 'SEARCH', ['hub_id', 'network'], [], {"network":"rss"}, 'events', ''],
+  'Hub feeds: create feed':['HUB_FEEDS', 'CREATE', ['hub_id', "feed_id", "network"], [], {"network":"rss"}, 'events', ''],
+  'Hub feeds: update feed':['HUB_FEEDS', 'UPDATE', ['hub_id', "feed_id"], [], {}, 'events', ''],
+  'Hub feeds: delete feed':['HUB_FEEDS', 'DELETE', ['hub_id', "feed_id"], [], {}, 'events', ''],
+  'Hub feeds: select a piece of content':['HUB_FEEDS', 'OPEN', ['hub_id', "feed_id", "asset_id"], [], {"asset_id":"fsdfhslkfjsdlkfj"}, 'events', ''],
+
+  'Hub newsletters: view newsletters list':['HUB_NEWSLETTERS', 'VIEW', ['hub_id'], [], {}, 'events', ''],
+  'Hub newsletters: preview newsletter':['HUB_NEWSLETTERS', 'VIEW', ['hub_id', 'newsletter_id'], [], {}, 'events', ''],  
+  'Hub newsletters: create newsletter':['HUB_NEWSLETTERS', 'CREATE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
+  'Hub newsletters: update newsletter':['HUB_NEWSLETTERS', 'UPDATE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
+  'Hub newsletters: delete newsletter':['HUB_NEWSLETTERS', 'DELETE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
+  'Hub newsletters: send newsletter':['HUB_NEWSLETTERS', 'PUBLISH', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
+  'Hub newsletters: schedule newsletter':['HUB_NEWSLETTERS', 'SCHEDULE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
+
+  /* TODO: Email transmissions */
   
-  'Hub>Newsletters: create a new newsletter': ['HUB_NEWSLETTERS', 'CREATE', ['hub_id']], // TODO...
-  'Hub>Newsletters: send a newsletter': ['HUB_NEWSLETTERS', '???', ['hub_id']], // TODO: object_id?
-  'Hub>Newsletters: delete a newsletter': ['HUB_NEWSLETTERS', 'DELETE', ['hub_id']], // TODO: object_id
-
-  'Hub>Feeds: create new feed': ['HUB_FEEDS', 'CREATE', ['hub_id']],
-  'Hub>Feeds: view a feed': ['HUB_FEEDS', 'VIEW', ['hub_id']],
-  'Hub>Feeds: update a feed': ['HUB_FEEDS', 'UPDATE', ['hub_id']],
-  'Hub>Feeds: delete a feed': ['HUB_FEEDS', 'DELETE', ['hub_id']],
-  // TODO: we can't actually tell what is the most popular feed source user's query
-
+  
+  /*  
   'Hub>Analytics: view analytics': ['HUB_ANALYTICS', 'VIEW', ['hub_id']],
 
   'Hub>Embeds: view embeds': ['HUB_EMBEDS', '????', ['hub_id']],
