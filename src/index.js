@@ -64,6 +64,9 @@ export class Metrix {
   sessionQS: string
 
   constructor(serverHost: string, appVersion: string) {
+    if (typeof window !== 'undefined' && typeof window.fetch === 'undefined') {
+      throw 'metrix.js requires fetch(), check your runtime and try again.'
+    }
 
     // api server host
     this.serverHost = serverHost.replace(/\/$/, '')
@@ -145,7 +148,7 @@ export class Metrix {
 
   dispatch = () => {
     if (this.queue.length == 0) return
-    
+
     // payload setup for our batch of events
     const payload = {
       v: this.appVersion,
@@ -195,8 +198,4 @@ export class MetrixNoop {
       }
     })
   }
-}
-
-if (typeof window !== 'undefined' && typeof window.fetch === 'undefined') {
-  throw 'metrix.js requires fetch(), check your runtime and try again.'
 }
