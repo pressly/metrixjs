@@ -8,8 +8,8 @@ let proto = require('exports?proto!imports?goog=>{provide:function(){}},proto=>{
 
 const Tracker: Function = (cb: Function) => {
   return {
-    event: (moduleKey: string, eventKey: string, data: JSONData) => {
-      const ev = new Event(moduleKey, eventKey, data)
+    event: (moduleKey: string, sectionKey: string, elementKey:string, eventKey: string, data: JSONData) => {
+      const ev = new Event(moduleKey, sectionKey, elementKey, eventKey, data)
       cb(ev, null)
     },
 
@@ -21,17 +21,21 @@ export default Tracker
 
 export class Event {
   module: string
+  section: ?string
+  element: ?string
   eventType: string
-  ts: number
-  url: string
-  hub_id: number
-  post_id: number
-  account_id: number
-  object_id: number
+  ts: Date
+  url: ?string
+  hub_id: ?number
+  post_id: ?number
+  account_id: ?number
+  object_id: ?number
   data: JSONData
 
-  constructor(moduleKey: string, eventKey: string, data: JSONData) {
-    this.module = moduleKey // module key
+  constructor(moduleKey: string, sectionKey:string, elementKey:string, eventKey: string, data: JSONData) {
+    this.module = moduleKey
+    this.section = sectionKey
+    this.element = elementKey
     this.eventType = eventKey    // event key
     this.ts = new Date()
     this.url = window.location.href
@@ -52,32 +56,38 @@ export class Event {
   }
 
   // event json
-  json() {
-    let payload = {
+  json(): JSONData {
+    let payload:JSONData = {
       ts: this.ts,
-      module: this.module,
+      module: this.module,      
       event_type: this.eventType,
       url: this.url
     }
+    if (!!this.section) {
+      payload.section = this.section
+    }
+    if (!!this.element) {
+      payload.element = this.element
+    }
 
     // Prepare payload data in a particular way for server
-    if (this.data.hub_id !== undefined) {
+    if (!!this.data.hub_id) {
       payload.hub_id = this.data.hub_id
       delete this.data.hub_id
     }
-    if (this.data.post_id !== undefined) {
+    if (!!this.data.post_id) {
       payload.post_id = this.data.post_id
       delete this.data.post_id
     }
-    if (this.data.account_id !== undefined) {
+    if (!!this.data.account_id) {
       payload.account_id = this.data.account_id
       delete this.data.account_id
     }
-    if (this.data.org_id !== undefined) {
+    if (!!this.data.org_id) {
       payload.account_id = this.data.org_id
       delete this.data.org_id
     }
-    if (this.data.object_id !== undefined) {
+    if (!!this.data.object_id) {
       payload.object_id = this.data.object_id
       delete this.data.object_id
     }
