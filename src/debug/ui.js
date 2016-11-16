@@ -73,11 +73,13 @@ Vue.component('actions', {
     triggerMetric: function(actionKey) {
       let action = actions[actionKey]
       let moduleKey = action[0]
-      let eventKey = action[1]
-      let requiredPayloadFields = action[2]
-      let optionalPayloadFields = action[3]
-      let extraPayloadValues = action[4]
-      let dbTable = action[5]
+      let sectionKey = action[1]
+      let elementKey = action[2]
+      let eventKey = action[3]
+      let requiredPayloadFields = action[4]
+      let optionalPayloadFields = action[5]
+      let extraPayloadValues = action[6]
+      let dbTable = action[7]
       let rowNum = 0
 
       function* generateCombinations(arr) {
@@ -124,7 +126,7 @@ Vue.component('actions', {
           }
         }
 
-        PMX.track.event(moduleKey, eventKey, payload)
+        PMX.track.event(moduleKey, sectionKey, elementKey, eventKey, payload)
         console.info(JSON.stringify(payload), '=>   SELECT * FROM ' + dbTable + ' ORDER BY ts DESC OFFSET ' + (eventCount - rowNum) + ' LIMIT 1;')
       }
     }

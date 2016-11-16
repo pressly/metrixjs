@@ -33,26 +33,28 @@ export { PMX }
 /*
 {
   'key': [
-    'LOGIN',              // module
-    'SOCIAL_LOGIN_FAIL',  // event
-    ['network'],          // required fields (from both 'standard' and extra)
-    ['hub_id', 'org_id'], // optional fields (from both 'standard' and extra)
-    {'key': val},         // example values of the non-standard, extra fields
-    'post_events',        // table in which the data will be stored - to generate testing query
-    'comment',            // extra information
+    'HUB',                  // module
+    'SPOTLIGHT',            // section
+    '',                     // element
+    'POST_LIKE',            // event
+    ['hub__id', 'post_id'], // required fields (from both 'standard' and extra)
+    ['hub_id', 'org_id'],   // optional fields (from both 'standard' and extra)
+    {'key': val},           // example values of the non-standard, extra fields
+    'post_events',          // table in which the data will be stored - to generate testing query
+    'my comment',           // extra information about payload
   ]
 }
 */
 
 export const actions = {
-  'Login: view login page':['LOGIN', 'VIEW', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
-  'Login: password login fail':['LOGIN', 'PASSWORD_LOGIN_FAIL', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
-  'Login: password login success':['LOGIN', 'PASSWORD_LOGIN_OK', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],  
-  'Login: SSO login fail':['LOGIN', 'SSO_LOGIN_FAIL', ['sso_config_id'],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
-  'Login: SSO login success':['LOGIN', 'SSO_LOGIN_OK', ['sso_config_id'],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],  
-  'Login: social login fail':['LOGIN', 'SOCIAL_LOGIN_FAIL', ['network'],['hub_id', 'org_id'], {'network': 'facebook'}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
-  'Login: social login success':['LOGIN', 'SOCIAL_LOGIN_OK', ['network'],['hub_id', 'org_id'], {'network': 'facebook'}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
-  
+  'Login: view login page': ['LOGIN', '', '', 'VIEW', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
+  'Login: password login fail':['LOGIN', 'PASSWORD', '', 'LOGIN_FAIL', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
+  'Login: password login success':['LOGIN', 'PASSWORD', '', 'LOGIN_OK', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
+  'Login: SSO login fail':['LOGIN', 'SSO', '', 'LOGIN_FAIL', ['sso_config_id'],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
+  'Login: SSO login success':['LOGIN', 'SSO', '', 'LOGIN_OK', ['sso_config_id'],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],  
+  'Login: social login fail':['LOGIN', 'SOCIAL', '', 'LOGIN_FAIL', ['network'],['hub_id', 'org_id'], {'network': 'facebook'}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
+  'Login: social login success':['LOGIN', 'SOCIAL', '', 'LOGIN_OK', ['network'],['hub_id', 'org_id'], {'network': 'facebook'}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
+ /* 
   'Feed: view feed':['FEED', 'VIEW', [],[], {}, 'events', ''],
   'Feed: open post':['FEED', 'open', ['post_id'],[], {}, 'events', ''],
   'Feed: open hub':['FEED', 'open', ['hub_id'],[], {}, 'events', ''],
@@ -84,6 +86,20 @@ export const actions = {
   'Hub spotlight: post share':['HUB_SPOTLIGHT', 'POST_SHARE', ['hub_id', 'post_id', 'share_id', 'network'],[], {'network': 'twitter'}, 'post_events', ''],
   'Hub spotlight: schedule post share':['HUB_SPOTLIGHT', 'POST_SHARE_SCHEDULE', ['hub_id', 'post_id', 'share_id', 'network'],[], {'network': 'twitter'}, 'post_events', ''],
   'Hub spotlight: open next/prev post':['HUB_SPOTLIGHT', 'OPEN', ['hub_id', 'post_id'],[], {}, 'post_events', 'set post_id to the id current post'],
+
+  'Hub embeds: open post':['HUB_EMBEDS', 'OPEN', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
+  'Hub embeds: view post':['HUB_EMBEDS', 'VIEW', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
+  'Hub embeds: like post':['HUB_EMBEDS', 'POST_LIKE', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
+  'Hub embeds: unlike post':['HUB_EMBEDS', 'POST_UNLIKE', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
+  'Hub embeds: comment post':['HUB_EMBEDS', 'POST_COMMENT', ['hub_id', 'post_id', 'comment_id'],[], {}, 'post_events', ''],
+  'Hub embeds: post share':['HUB_EMBEDS', 'POST_SHARE', ['hub_id', 'post_id', 'share_id', 'network'],[], {'network': 'twitter'}, 'post_events', ''],
+  'Hub embeds: open post':['HUB_EMBEDS_SPOTLIGHT', 'OPEN', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
+  'Hub embeds: view post (inline spotlight)':['HUB_EMBEDS_SPOTLIGHT', 'VIEW', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
+  'Hub embeds: like post (inline spotlight)':['HUB_EMBEDS_SPOTLIGHT', 'POST_LIKE', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
+  'Hub embeds: unlike post  (inline spotlight)':['HUB_EMBEDS_SPOTLIGHT', 'POST_UNLIKE', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
+  'Hub embeds: comment post (inline spotlight)':['HUB_EMBEDS_SPOTLIGHT', 'POST_COMMENT', ['hub_id', 'post_id', 'comment_id'],[], {}, 'post_events', ''],
+  'Hub embeds: post share  (inline spotlight)':['HUB_EMBEDS_SPOTLIGHT', 'POST_SHARE', ['hub_id', 'post_id', 'share_id', 'network'],[], {'network': 'twitter'}, 'post_events', ''],  
+  
 
   'Hub post: create a post':['HUB', 'CREATE', ['hub_id', 'post_id'], [], {}, 'events', ''],
   'Hub post: update a post':['HUB', 'UPDATE', ['hub_id', 'post_id'], [], {}, 'events', ''],
@@ -135,9 +151,9 @@ export const actions = {
   'Hub settings CTAs: create CTA':['HUB_SETTINGS_CTA', 'CREATE', ['hub_id', 'widget_id'], [], {}, 'events', ''],
   'Hub settings CTAs: update CTA settings':['HUB_SETTINGS_CTA', 'UPDATE', ['hub_id', 'widget_id'], [], {}, 'events', ''],
   'Hub settings CTAs: delete CTA':['HUB_SETTINGS_CTA', 'DELETE', ['hub_id', 'widget_id'], [], {}, 'events', ''],
-
+*/
   /* TODO: Integrations */
-
+/*
   'Hub feeds: view feed list':['HUB_FEEDS', 'VIEW', ['hub_id'], [], {}, 'events', ''],
   'Hub feeds: search':['HUB_FEEDS', 'SEARCH', ['hub_id', 'network'], [], {"network":"rss"}, 'events', ''],
   'Hub feeds: create feed':['HUB_FEEDS', 'CREATE', ['hub_id', "feed_id", "network"], [], {"network":"rss"}, 'events', ''],
@@ -152,7 +168,7 @@ export const actions = {
   'Hub newsletters: delete newsletter':['HUB_NEWSLETTERS', 'DELETE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
   'Hub newsletters: send newsletter':['HUB_NEWSLETTERS', 'PUBLISH', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
   'Hub newsletters: schedule newsletter':['HUB_NEWSLETTERS', 'SCHEDULE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
-
+*/
   /* TODO: Email transmissions */
   
   
