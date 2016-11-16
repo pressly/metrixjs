@@ -179,7 +179,7 @@ export class Metrix {
       'Content-Type': 'application/json'
     })
 
-    if (this.authToken != null) {
+    if (this.authToken != null && this.authToken != '') {
       headers.append('Authorization', `BEARER ${this.authToken}`)
     }
 
