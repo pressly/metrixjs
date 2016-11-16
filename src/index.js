@@ -54,6 +54,7 @@ const IDENTIFY_INTERVAL: number = 1*60*1000 // 1 minute in milliseconds
 export class Metrix {
   serverHost: string
   appVersion: string
+  authToken: ?string
   metrixURL: string
   timezoneOffset: number
   track: Function
@@ -63,7 +64,7 @@ export class Metrix {
   sessionID: string
   sessionQS: string
 
-  constructor(serverHost: string, appVersion: string) {
+  constructor(serverHost: string, appVersion: string, authToken: ?string) {
     if (typeof window !== 'undefined' && typeof window.fetch === 'undefined') {
       throw 'metrix.js requires fetch(), check your runtime and try again.'
     }
@@ -76,6 +77,10 @@ export class Metrix {
     if (appVersion == '') {
       console.error('metrix: appVersion is required.')
     }
+
+    // User auth token, used by mobile app. When null, the value will rely on cookie
+    // to send the information.
+    this.authToken = authToken
 
     // Identify the user with a long and short lived fingerprint.
     // As well, setup an interval to update the identity while a
@@ -168,14 +173,21 @@ export class Metrix {
 
     // Send the payload over to the metrix endpoint
     util.log('post to server:', payload)
+
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    })
+
+    if (this.authToken != null) {
+      headers.append('Authorization', `BEARER ${this.authToken}`)
+    }
+
     fetch(this.metrixURL, {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
-      headers: new Headers({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }),
+      headers: headers,
       body: JSON.stringify(payload)
     }).then((resp) => {
       if (resp.status !== 204) { // 204 SUCCESS will not send a json response payload
