@@ -17,40 +17,6 @@ export const generateUID = () => {
   return `${rd}.${ts}`
 }
 
-export const getCookies = (cnames) => {
-  let vals = {}
-  let cs = document.cookie.split(';')
-
-  for (let i=0; i < cnames.length; i++) {
-    let k = cnames[i]
-    let cname = k + '='
-    vals[k] = ''
-
-    for (let x=0; x < cs.length; x++) {
-      let c = cs[x]
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1)
-      }
-      if (c.indexOf(cname) == 0) {
-        vals[k] = c.substring(cname.length, c.length)
-        break
-      }
-    }
-  }
-  return vals
-}
-
-export const getCookie = (cname) => {
-  return getCookies([cname])[cname]
-}
-
-export const setCookie = (cname, cvalue, durationInMinutes) => {
-  let d = new Date()
-  d.setTime(d.getTime() + (durationInMinutes*60*1000))
-  let expires = 'expires=' + d.toUTCString()
-  document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
-}
-
 export const debounce = (func, wait, immediate) => {
   let timeout
   return () => {
