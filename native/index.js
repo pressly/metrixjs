@@ -13,7 +13,7 @@ export default class NativeStorage extends Storage  {
   }
 
   async setCookie(cname, cvalue, durationInMinutes) {
-    if (cvalue === "") {
+    if (cvalue === '') {
       return await AsyncStorage.removeItem(`metrix:${cname}`)
     }
     return await AsyncStorage.setItem(`metrix:${cname}`, cvalue)
