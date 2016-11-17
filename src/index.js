@@ -65,6 +65,7 @@ export class Metrix {
   sessionID: string
   sessionQS: string
   storage: Storage
+  intervalHandler: number
 
   constructor(serverHost: string, appVersion: string, authToken: ?string, storage: ?Storage) {
     if (typeof window !== 'undefined' && typeof window.fetch === 'undefined') {
@@ -94,7 +95,7 @@ export class Metrix {
     // As well, setup an interval to update the identity while a
     // session is active.
     this.identify()
-    setInterval(this.identify, IDENTIFY_INTERVAL)
+    this.intervalHandler = setInterval(this.identify, IDENTIFY_INTERVAL)
 
     // track the client's timezone offset
     this.timezoneOffset = (new Date()).getTimezoneOffset()
@@ -107,6 +108,13 @@ export class Metrix {
 
     // event queue
     this.queue = []
+  }
+
+  // in mobile, we need to clear out the setInterval everytime we create a new
+  // metrix.
+  cleanUp = () => {
+    clearInterval(this.intervalHandler)
+    this.intervalHandler = 0
   }
 
   // identify will find, create or update the user identity cookies.
