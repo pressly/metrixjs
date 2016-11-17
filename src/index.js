@@ -11,6 +11,7 @@
 import * as util from './util'
 import Tracker from './tracker'
 import type { Event } from './tracker'
+import Storage from './storage'
 
 // Request path to POST event payloads on the server
 const SERVER_ENDPOINT: string = '/metrix'
@@ -63,11 +64,18 @@ export class Metrix {
   clientID: string
   sessionID: string
   sessionQS: string
+  storage: Storage
 
-  constructor(serverHost: string, appVersion: string, authToken: ?string) {
+  constructor(serverHost: string, appVersion: string, authToken: ?string, storage: ?Storage) {
     if (typeof window !== 'undefined' && typeof window.fetch === 'undefined') {
       throw 'metrix.js requires fetch(), check your runtime and try again.'
     }
+
+    // if storage is not being passed then, it uses the default storage
+    if (!storage) {
+      storage = new Storage()
+    }
+    this.storage = storage
 
     // api server host
     this.serverHost = serverHost.replace(/\/$/, '')
@@ -102,8 +110,8 @@ export class Metrix {
   }
 
   // identify will find, create or update the user identity cookies.
-  identify: Function = () => {
-    let cookieVals: {[id:string]: string} = util.getCookies([ CLIENT_ID_KEY, SESSION_ID_KEY, SESSION_QS_KEY ])
+  identify: Function = async () => {
+    let cookieVals: {[id:string]: string} = await this.storage.getCookies([ CLIENT_ID_KEY, SESSION_ID_KEY, SESSION_QS_KEY ])
 
     // Find an existing user identity cookie or create a new one.
     // Also, always update the expiry for the client id cookie.
@@ -111,7 +119,7 @@ export class Metrix {
     if (clientID == '') {
       clientID = util.generateUID()
     }
-    util.setCookie(CLIENT_ID_KEY, clientID, CLIENT_ID_EXPIRY)
+    await this.storage.setCookie(CLIENT_ID_KEY, clientID, CLIENT_ID_EXPIRY)
 
     // Track the user session, if it expires, make a new one.
     // Also, always update the expiry for the session id cookie.
@@ -119,7 +127,7 @@ export class Metrix {
     if (sessionID == '') {
       sessionID = util.generateUID()
     }
-    util.setCookie(SESSION_ID_KEY, sessionID, SESSION_ID_EXPIRY)
+    await this.storage.setCookie(SESSION_ID_KEY, sessionID, SESSION_ID_EXPIRY)
 
     // Track the session QS (Query String), this will have utm params
     // that are important to report. We store them in a cookie for the
@@ -128,7 +136,7 @@ export class Metrix {
     if (sessionQS == '') {
       sessionQS = window.location.search.substr(1)
     }
-    util.setCookie(SESSION_QS_KEY, sessionQS, SESSION_QS_EXPIRY)
+    await this.storage.setCookie(SESSION_QS_KEY, sessionQS, SESSION_QS_EXPIRY)
 
     util.log('clientID:', clientID)
 
@@ -137,11 +145,11 @@ export class Metrix {
     this.sessionQS = sessionQS
   }
 
-  clearIdentity() {
+  async clearIdentity() {
     if (__DEV__) {
-      util.setCookie(CLIENT_ID_KEY, '', 0)
-      util.setCookie(SESSION_ID_KEY, '', 0)
-      util.setCookie(SESSION_QS_KEY, '', 0)
+      await this.storage.setCookie(CLIENT_ID_KEY, '', 0)
+      await this.storage.setCookie(SESSION_ID_KEY, '', 0)
+      await this.storage.setCookie(SESSION_QS_KEY, '', 0)
     }
   }
 
