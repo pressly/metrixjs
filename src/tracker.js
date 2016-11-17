@@ -71,27 +71,29 @@ export class Event {
     }
 
     // Prepare payload data in a particular way for server
-    if (!!this.data.hub_id) {
-      payload.hub_id = this.data.hub_id
-      delete this.data.hub_id
+    if (!!this.data) {
+      if (!!this.data.hub_id) {
+        payload.hub_id = this.data.hub_id
+        delete this.data.hub_id
+      }
+      if (!!this.data.post_id) {
+        payload.post_id = this.data.post_id
+        delete this.data.post_id
+      }
+      if (!!this.data.account_id) {
+        payload.account_id = this.data.account_id
+        delete this.data.account_id
+      }
+      if (!!this.data.org_id) {
+        payload.account_id = this.data.org_id
+        delete this.data.org_id
+      }
+      if (!!this.data.object_id) {
+        payload.object_id = this.data.object_id
+        delete this.data.object_id
+      }
+      payload.data = this.data
     }
-    if (!!this.data.post_id) {
-      payload.post_id = this.data.post_id
-      delete this.data.post_id
-    }
-    if (!!this.data.account_id) {
-      payload.account_id = this.data.account_id
-      delete this.data.account_id
-    }
-    if (!!this.data.org_id) {
-      payload.account_id = this.data.org_id
-      delete this.data.org_id
-    }
-    if (!!this.data.object_id) {
-      payload.object_id = this.data.object_id
-      delete this.data.object_id
-    }
-    payload.data = this.data
 
     return payload
   }
