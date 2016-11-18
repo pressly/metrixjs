@@ -38,10 +38,20 @@ export class Event {
     this.element = elementKey
     this.eventType = eventKey    // event key
     this.ts = new Date()
-    this.url = window.location.href
+    this.url = this.getCurrentURL()
     this.data = data
 
     this.verifyKeys()
+  }
+
+  // need this function to make it work on
+  getCurrentURL = ():?string => {
+    if (typeof window !== 'undefined' &&
+        window.location &&
+        window.location.href) {
+      return window.location.href
+    }
+    return undefined
   }
 
   verifyKeys():void {
@@ -59,7 +69,7 @@ export class Event {
   json(): JSONData {
     let payload:JSONData = {
       ts: this.ts,
-      module: this.module,      
+      module: this.module,
       event_type: this.eventType,
       url: this.url
     }
