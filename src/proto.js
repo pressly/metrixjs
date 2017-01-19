@@ -38,7 +38,8 @@ proto.events.Module = {
   HUB_ANALYTICS: 704,
   HUB_COMPOSE: 705,
   EMAIL: 800,
-  EMBED: 900
+  EMBED: 900,
+  BOOKMARKLET: 901
 };
 
 /**
