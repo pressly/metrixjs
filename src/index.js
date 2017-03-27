@@ -19,7 +19,6 @@ const SERVER_ENDPOINT: string = '/metrix'
 // Long-term persisted client id fingerprint
 const CLIENT_ID_KEY: string = '_pmx'
 const CLIENT_ID_EXPIRY: number = 2*365*24*60 // 2 years in minutes
-const CLIENT_ID_PARAM: string = 'cid' // check query string for a client id
 
 // Short-lived cookie to identify a single visit from a client.
 // The session ID is actually the unix timestamp of the session start time.
@@ -32,6 +31,8 @@ const SESSION_ID_EXPIRY: number = 15 // 15 minutes
 // in coordination with the session cookie above.
 const SESSION_QS_KEY: string = '_pmxz'
 const SESSION_QS_EXPIRY: number = SESSION_ID_EXPIRY
+
+const SESSION_REF_KEY: string = '_pmxr'
 
 // Amount of time given to batch work
 const DISPATCH_INTERVAL: number = 100 // 100 milliseconds
@@ -64,6 +65,7 @@ export class Metrix {
   clientID: string
   sessionID: string
   sessionQS: string
+  referrer: string
   storage: Storage
   intervalHandler: number
 
@@ -119,7 +121,7 @@ export class Metrix {
 
   // identify will find, create or update the user identity cookies.
   identify: Function = async () => {
-    let cookieVals: {[id:string]: string} = await this.storage.getCookies([ CLIENT_ID_KEY, SESSION_ID_KEY, SESSION_QS_KEY ])
+    let cookieVals: {[id:string]: string} = await this.storage.getCookies([ CLIENT_ID_KEY, SESSION_ID_KEY, SESSION_QS_KEY, SESSION_REF_KEY ])
 
     // Find an existing user identity cookie or create a new one.
     // Also, always update the expiry for the client id cookie.
@@ -146,11 +148,19 @@ export class Metrix {
     }
     await this.storage.setCookie(SESSION_QS_KEY, sessionQS, SESSION_QS_EXPIRY)
 
+    let referrer: string = cookieVals[SESSION_REF_KEY]
+    if (referrer == '') {
+      referrer = window.referrer
+    }
+    await this.storage.setCookie(SESSION_REF_KEY, referrer, SESSION_QS_EXPIRY)
+
+
     util.log('clientID:', clientID)
 
     this.clientID = clientID
     this.sessionID = sessionID
     this.sessionQS = sessionQS
+    this.referrer = referrer
   }
 
   async clearIdentity() {
@@ -177,6 +187,7 @@ export class Metrix {
       sid: this.sessionID,
       sqs: this.sessionQS,
       tzo: this.timezoneOffset,
+      referrer: this.referrer,
       events: []
     }
 

@@ -51,10 +51,10 @@ export const actions = {
   'Login: password login fail':['LOGIN', 'PASSWORD', '', 'LOGIN_FAIL', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
   'Login: password login success':['LOGIN', 'PASSWORD', '', 'LOGIN_OK', [],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
   'Login: SSO login fail':['LOGIN', 'SSO', '', 'LOGIN_FAIL', ['sso_config_id'],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
-  'Login: SSO login success':['LOGIN', 'SSO', '', 'LOGIN_OK', ['sso_config_id'],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],  
+  'Login: SSO login success':['LOGIN', 'SSO', '', 'LOGIN_OK', ['sso_config_id'],['hub_id', 'org_id'], {}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
   'Login: social login fail':['LOGIN', 'SOCIAL', '', 'LOGIN_FAIL', ['network'],['hub_id', 'org_id'], {'network': 'facebook'}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
   'Login: social login success':['LOGIN', 'SOCIAL', '', 'LOGIN_OK', ['network'],['hub_id', 'org_id'], {'network': 'facebook'}, 'events', 'set org_id when on custom login page, set hub_id when logging in while on a hub'],
- 
+
   'Feed: view feed':['FEED', '', '', 'VIEW', [],[], {}, 'events', ''],
   'Feed: open post':['FEED', '', '', 'OPEN', ['post_id'],[], {}, 'events', ''],
   'Feed: open hub':['FEED', '', '', 'OPEN', ['hub_id'],[], {}, 'events', ''],
@@ -98,15 +98,15 @@ export const actions = {
   'Hub embeds: like post (inline spotlight)':['HUB', 'EMBED', 'SPOTLIGHT', 'POST_LIKE', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
   'Hub embeds: unlike post  (inline spotlight)':['HUB', 'EMBED', 'SPOTLIGHT', 'POST_UNLIKE', ['hub_id', 'post_id'],[], {}, 'post_events', ''],
   'Hub embeds: comment post (inline spotlight)':['HUB', 'EMBED', 'SPOTLIGHT', 'POST_COMMENT', ['hub_id', 'post_id', 'comment_id'],[], {}, 'post_events', ''],
-  'Hub embeds: post share  (inline spotlight)':['HUB', 'EMBED', 'SPOTLIGHT', 'POST_SHARE', ['hub_id', 'post_id', 'share_id', 'network'],[], {'network': 'twitter'}, 'post_events', ''],  
-  
-  'Hub post: go to source (bypass spotlight)':['HUB', 'EXTERNAL', '', 'VIEW', ['hub_id', 'post_id'], [], {}, 'events', 'don\'t send it from web or mobile app - leave it to shortstuff'],  
+  'Hub embeds: post share  (inline spotlight)':['HUB', 'EMBED', 'SPOTLIGHT', 'POST_SHARE', ['hub_id', 'post_id', 'share_id', 'network'],[], {'network': 'twitter'}, 'post_events', ''],
+
+  'Hub post: go to source (bypass spotlight)':['HUB', 'EXTERNAL', '', 'VIEW', ['hub_id', 'post_id'], [], {}, 'events', 'don\'t send it from web or mobile app - leave it to shortstuff'],
 
   'Hub team: view collaborators':['HUB_TEAM', 'COLLABORATORS', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
   'Hub team: view members':['HUB_TEAM', 'MEMBERS', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
-  'Hub team: view invites':['HUB_TEAM', 'INVITES', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],  
+  'Hub team: view invites':['HUB_TEAM', 'INVITES', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
   'Hub team: leave hub':['HUB_TEAM', '', '', 'LEAVE', ['hub_id', 'account_id'], [], {}, 'events', ''],
-    
+
   'Hub settings: view profile settings':['HUB_SETTINGS','PROFILE', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
   'Hub settings: view custom domain settings':['HUB_SETTINGS', 'DOMAIN', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
   'Hub settings: view advanved settings':['HUB_SETTINGS', 'ADVANCED', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
@@ -134,7 +134,7 @@ export const actions = {
   'Hub settings collections: view collection settings':['HUB_SETTINGS_COLLECTIONS', '', '', 'VIEW', ['hub_id', 'collection_id'], [], {}, 'events', ''],
   'Hub settings collections: create collection':['HUB_SETTINGS_COLLECTIONS', '', '', 'CREATE', ['hub_id', 'collection_id'], [], {}, 'events', ''],
   'Hub settings collections: update collection settings':['HUB_SETTINGS_COLLECTIONS', '', '', 'UPDATE', ['hub_id', 'collection_id'], [], {}, 'events', ''],
-  'Hub settings collections: delete collection':['HUB_SETTINGS_COLLECTIONS', '', '', 'DELETE', ['hub_id', 'collection_id'], [], {}, 'events', ''],  
+  'Hub settings collections: delete collection':['HUB_SETTINGS_COLLECTIONS', '', '', 'DELETE', ['hub_id', 'collection_id'], [], {}, 'events', ''],
 
   'Hub settings CTAs: view CTA list':['HUB_SETTINGS_CTAS', '', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
   'Hub settings CTAs: view CTA settings':['HUB_SETTINGS_CTAS', '', '', 'VIEW', ['hub_id', 'widget_id'], [], {}, 'events', ''],
@@ -153,27 +153,27 @@ export const actions = {
   'Hub feeds: select a piece of content':['HUB_MANAGE_CONTENT', 'FEEDS', '', 'OPEN', ['hub_id', "feed_id", "asset_id"], [], {"asset_id":"fsdfhslkfjsdlkfj"}, 'events', ''],
 
   'Hub newsletters: view newsletters list':['HUB_NEWSLETTERS', '', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
-  'Hub newsletters: preview newsletter':['HUB_NEWSLETTERS', '', '', 'VIEW', ['hub_id', 'newsletter_id'], [], {}, 'events', ''],  
+  'Hub newsletters: preview newsletter':['HUB_NEWSLETTERS', '', '', 'VIEW', ['hub_id', 'newsletter_id'], [], {}, 'events', ''],
   'Hub newsletters: create newsletter':['HUB_NEWSLETTERS', '', '', 'CREATE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
   'Hub newsletters: update newsletter':['HUB_NEWSLETTERS', '', '', 'UPDATE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
   'Hub newsletters: delete newsletter':['HUB_NEWSLETTERS', '', '', 'DELETE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
   'Hub newsletters: send newsletter':['HUB_NEWSLETTERS', '', '', 'PUBLISH', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
   'Hub newsletters: schedule newsletter':['HUB_NEWSLETTERS', '', '', 'SCHEDULE', ['hub_id', "newsletter_id"], [], {}, 'events', ''],
 
-  'Hub newsletters: view mailing lists list':['HUB_NEWSLETTERS', 'MAILING_LISTS', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],   
+  'Hub newsletters: view mailing lists list':['HUB_NEWSLETTERS', 'MAILING_LISTS', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
   'Hub newsletters: create mailing list':['HUB_NEWSLETTERS', 'MAILING_LISTS', '', 'CREATE', ['hub_id', "mailing_list_id"], [], {}, 'events', ''],
   'Hub newsletters: update mailing list':['HUB_NEWSLETTERS', 'MAILING_LISTS', '', 'UPDATE', ['hub_id', "mailing_list_id"], [], {}, 'events', ''],
   'Hub newsletters: delete mailing list':['HUB_NEWSLETTERS', 'MAILING_LISTS', '', 'DELETE', ['hub_id', "mailing_list_id"], [], {}, 'events', ''],
 
-  'Hub newsletters: view templates list':['HUB_NEWSLETTERS', 'TEMPLATES', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],   
+  'Hub newsletters: view templates list':['HUB_NEWSLETTERS', 'TEMPLATES', '', 'VIEW', ['hub_id'], [], {}, 'events', ''],
   'Hub newsletters: create template':['HUB_NEWSLETTERS', 'TEMPLATES', '', 'CREATE', ['hub_id', "template_id"], [], {}, 'events', ''],
   'Hub newsletters: update template':['HUB_NEWSLETTERS', 'TEMPLATES', '', 'UPDATE', ['hub_id', "template_id"], [], {}, 'events', ''],
   'Hub newsletters: delete template':['HUB_NEWSLETTERS', 'TEMPLATES', '', 'DELETE', ['hub_id', "template_id"], [], {}, 'events', ''],
 
   /* TODO: Email transmissions */
-  
-  
-  /*  
+
+
+  /*
   'Hub>Analytics: view analytics': ['HUB_ANALYTICS', 'VIEW', ['hub_id']],
 
   'Hub>Embeds: view embeds': ['HUB', 'EMBED', '', '????', ['hub_id']],
