@@ -150,10 +150,9 @@ export class Metrix {
 
     let referrer: string = cookieVals[SESSION_REF_KEY]
     if (referrer == '') {
-      referrer = window.referrer
+      referrer = document.referrer
     }
     await this.storage.setCookie(SESSION_REF_KEY, referrer, SESSION_QS_EXPIRY)
-
 
     util.log('clientID:', clientID)
 
