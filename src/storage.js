@@ -1,6 +1,6 @@
 // @flow
 
-const document = window.document
+const canUseDOM = typeof document !== 'undefined'
 
 export default class Storage {
   constructor() {
@@ -8,7 +8,7 @@ export default class Storage {
   }
 
   async getCookies(cnames: Array<string>): Promise<{}> {
-    if (!document) {
+    if (!canUseDOM) {
       return {}
     }
 
@@ -40,7 +40,7 @@ export default class Storage {
   }
 
   async setCookie(cname: string, cvalue: string, durationInMinutes: number): Promise<> {
-    if (!document) {
+    if (!canUseDOM) {
       return
     }
 

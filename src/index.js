@@ -13,7 +13,7 @@ import Tracker from './tracker'
 import type { Event } from './tracker'
 import Storage from './storage'
 
-const document = window.document
+const canUseDOM = typeof document !== 'undefined'
 
 // Request path to POST event payloads on the server
 const SERVER_ENDPOINT: string = '/metrix'
@@ -152,7 +152,7 @@ export class Metrix {
 
     let referrer: string = cookieVals[SESSION_REF_KEY]
     if (!referrer) {
-      referrer = document && document.referrer
+      referrer = canUseDOM && document.referrer
     }
     await this.storage.setCookie(SESSION_REF_KEY, referrer, SESSION_QS_EXPIRY)
 
