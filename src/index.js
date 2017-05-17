@@ -13,6 +13,8 @@ import Tracker from './tracker'
 import type { Event } from './tracker'
 import Storage from './storage'
 
+const document = window.document
+
 // Request path to POST event payloads on the server
 const SERVER_ENDPOINT: string = '/metrix'
 
@@ -85,7 +87,7 @@ export class Metrix {
     this.metrixURL = `${this.serverHost}${SERVER_ENDPOINT}`
 
     this.appVersion = appVersion
-    if (appVersion == '') {
+    if (!appVersion) {
       console.error('metrix: appVersion is required.')
     }
 
@@ -126,7 +128,7 @@ export class Metrix {
     // Find an existing user identity cookie or create a new one.
     // Also, always update the expiry for the client id cookie.
     let clientID: string = cookieVals[CLIENT_ID_KEY]
-    if (clientID == '') {
+    if (!clientID) {
       clientID = util.generateUID()
     }
     await this.storage.setCookie(CLIENT_ID_KEY, clientID, CLIENT_ID_EXPIRY)
@@ -134,7 +136,7 @@ export class Metrix {
     // Track the user session, if it expires, make a new one.
     // Also, always update the expiry for the session id cookie.
     let sessionID: string = cookieVals[SESSION_ID_KEY]
-    if (sessionID == '') {
+    if (!sessionID) {
       sessionID = util.generateUID()
     }
     await this.storage.setCookie(SESSION_ID_KEY, sessionID, SESSION_ID_EXPIRY)
@@ -143,14 +145,14 @@ export class Metrix {
     // that are important to report. We store them in a cookie for the
     // session lifetime in case the qs changes during the session.
     let sessionQS: string = cookieVals[SESSION_QS_KEY]
-    if (sessionQS == '') {
+    if (!sessionQS) {
       sessionQS = window.location.search.substr(1)
     }
     await this.storage.setCookie(SESSION_QS_KEY, sessionQS, SESSION_QS_EXPIRY)
 
     let referrer: string = cookieVals[SESSION_REF_KEY]
-    if (referrer == '') {
-      referrer = document.referrer
+    if (!referrer) {
+      referrer = document && document.referrer
     }
     await this.storage.setCookie(SESSION_REF_KEY, referrer, SESSION_QS_EXPIRY)
 

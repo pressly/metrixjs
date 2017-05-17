@@ -1,11 +1,17 @@
 // @flow
 
+const document = window.document
+
 export default class Storage {
   constructor() {
 
   }
 
   async getCookies(cnames: Array<string>): Promise<{}> {
+    if (!document) {
+      return {}
+    }
+
     let vals = {}
     let cs = document.cookie.split(';')
 
@@ -34,6 +40,10 @@ export default class Storage {
   }
 
   async setCookie(cname: string, cvalue: string, durationInMinutes: number): Promise<> {
+    if (!document) {
+      return
+    }
+
     let d = new Date()
     d.setTime(d.getTime() + (durationInMinutes*60*1000))
     let expires = 'expires=' + d.toUTCString()
