@@ -230,13 +230,8 @@ export class Metrix {
 }
 
 export class MetrixNoop {
-  track: {}
-  constructor() {
-    this.track = new Proxy({}, {
-      get: (target, name) => {
-        return () => {}
-      }
-    })
+  track = {
+    event: () => {}
   }
 }
 
