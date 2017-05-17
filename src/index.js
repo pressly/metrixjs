@@ -239,3 +239,7 @@ export class MetrixNoop {
     })
   }
 }
+
+const MetrixExport = canUseDOM ? Metrix : MetrixNoop
+
+export default MetrixExport

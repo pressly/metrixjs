@@ -1,17 +1,7 @@
 // @flow
 
-const canUseDOM = typeof document !== 'undefined'
-
 export default class Storage {
-  constructor() {
-
-  }
-
   async getCookies(cnames: Array<string>): Promise<{}> {
-    if (!canUseDOM) {
-      return {}
-    }
-
     let vals = {}
     let cs = document.cookie.split(';')
 
@@ -40,10 +30,6 @@ export default class Storage {
   }
 
   async setCookie(cname: string, cvalue: string, durationInMinutes: number): Promise<> {
-    if (!canUseDOM) {
-      return
-    }
-
     let d = new Date()
     d.setTime(d.getTime() + (durationInMinutes*60*1000))
     let expires = 'expires=' + d.toUTCString()
