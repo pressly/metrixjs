@@ -26,10 +26,10 @@ export class Event {
   eventType: string
   ts: Date
   url: ?string
-  hub_id: ?number
-  post_id: ?number
-  account_id: ?number
-  object_id: ?number
+  hub_id: ?string
+  post_id: ?string
+  account_id: ?string
+  object_id: ?string
   data: JSONData
 
   constructor(moduleKey: string, sectionKey:string, elementKey:string, eventKey: string, data: JSONData) {

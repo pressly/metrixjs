@@ -38,7 +38,7 @@ const SESSION_REF_KEY: string = '_pmxr'
 
 // Amount of time given to batch work
 const DISPATCH_INTERVAL: number = 100 // 100 milliseconds
-const IDENTIFY_INTERVAL: number = 1*60*1000 // 1 minute in milliseconds
+const IDENTIFY_INTERVAL: number = 1 * 60 * 1000 // 1 minute in milliseconds
 
 // TODO: grab the client id from the query param if its there
 // check to make sure it has a . and X length..
@@ -69,7 +69,7 @@ export class Metrix {
   sessionQS: string
   referrer: string
   storage: Storage
-  intervalHandler: number
+  intervalHandler: *
 
   constructor(serverHost: string, appVersion: string, authToken: ?string, storage: ?Storage) {
     if (typeof window !== 'undefined' && typeof window.fetch === 'undefined') {
@@ -117,8 +117,11 @@ export class Metrix {
   // in mobile, we need to clear out the setInterval everytime we create a new
   // metrix.
   cleanUp = () => {
-    clearInterval(this.intervalHandler)
-    this.intervalHandler = 0
+    if (this.intervalHandler) {
+      clearInterval(this.intervalHandler)
+    }
+
+    this.intervalHandler = null
   }
 
   // identify will find, create or update the user identity cookies.
@@ -152,7 +155,7 @@ export class Metrix {
 
     let referrer: string = cookieVals[SESSION_REF_KEY]
     if (!referrer) {
-      referrer = canUseDOM && document.referrer
+      referrer = canUseDOM ? document.referrer : ''
     }
     await this.storage.setCookie(SESSION_REF_KEY, referrer, SESSION_QS_EXPIRY)
 

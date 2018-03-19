@@ -29,7 +29,7 @@ export default class Storage {
     return values[cname]
   }
 
-  async setCookie(cname: string, cvalue: string, durationInMinutes: number): Promise<> {
+  async setCookie(cname: string, cvalue: string, durationInMinutes: number): Promise<*> {
     let d = new Date()
     d.setTime(d.getTime() + (durationInMinutes*60*1000))
     let expires = 'expires=' + d.toUTCString()
