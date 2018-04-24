@@ -20,7 +20,7 @@ const SERVER_ENDPOINT: string = '/metrix'
 
 // Long-term persisted client id fingerprint
 const CLIENT_ID_KEY: string = '_pmx'
-const CLIENT_ID_EXPIRY: number = 2*365*24*60 // 2 years in minutes
+const CLIENT_ID_EXPIRY: number = 364*24*60 // 364 days in minutes
 
 // Short-lived cookie to identify a single visit from a client.
 // The session ID is actually the unix timestamp of the session start time.
