@@ -1,6 +1,8 @@
 /**
  * @fileoverview
  * @enhanceable
+ * @suppress {messageConventions} JS Compiler reports an error if a variable or
+ *     field starts with 'MSG_' and isn't a translatable message.
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
@@ -128,6 +130,8 @@ proto.events.Event = {
   VIEWER_SPEED_CHANGE: 412,
   VIEWER_BANDWIDTH_ADAPT: 413,
   GET_FOCUS: 500,
-  LOSE_FOCUS: 501
+  LOSE_FOCUS: 501,
+  ACCEPT_COOKIE: 600,
+  DISMISS_COOKIE: 601
 };
 
