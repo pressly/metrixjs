@@ -16,4 +16,4 @@ flow:
 
 .PHONY: update-proto
 update-proto:
-	@cp $(GOPATH)/src/github.com/pressly/api/services/metrix/proto/*.js ./src
+	@cp $(GOPATH)/src/github.com/pressly/backend/metrix/proto/*.js ./src
