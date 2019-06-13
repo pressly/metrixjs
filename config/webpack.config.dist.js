@@ -3,6 +3,8 @@ import path from 'path'
 import webpack from 'webpack'
 import { ROOT_PATH, SRC_PATH } from './constants'
 
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 const config = {
   entry: {
     'metrix': path.join(SRC_PATH, 'index.js'),
@@ -26,18 +28,23 @@ const config = {
     }]
   },
 
+  optimization: {
+    minimize: true,
+    minimizer: [new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: {
+          warnings: false
+        },
+        comments: false,
+        mangle: true
+      }
+    })]
+  },
+
   plugins: [
     new webpack.DefinePlugin({
       __DEV__: process.env.NODE_ENV !== 'production',
       'process.env': JSON.stringify(process.env)
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      comments: false,
-      mangle: true,
-      minimize: true
     })
   ]
 }
