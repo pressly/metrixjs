@@ -14,14 +14,14 @@ const config = {
   },
 
   output: {
-    path: './dist',
+    path: path.resolve(__dirname, 'dist/js'),
     filename: '[name].js',
     libraryTarget: 'umd',
     library: 'metrixjs'
   },
 
   module: {
-    loaders: [{
+    rules: [{
       test: /\.js$/,
       exclude: /node_modules/,
       loader: 'babel-loader'

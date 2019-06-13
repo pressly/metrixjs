@@ -21,14 +21,14 @@ const config = {
 
   resolve: {
     unsafeCache: true,
-    root: 'metrix',
+    modules: ['metrix', 'node_modules'],
     alias: {
       'metrix': SRC_PATH
     }
   },
   
   module: {
-    loaders: [{
+    rules: [{
       test: /\.js$/,
       include: SRC_PATH,
       exclude: /node_modules/,
