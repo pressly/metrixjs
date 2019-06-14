@@ -1,18 +1,18 @@
 /* eslint no-console: 0, no-undef: 0 */
-import path from 'path'
-import webpack from 'webpack'
-import WebpackDevServer from 'webpack-dev-server'
-import HTMLWebpackPlugin from 'html-webpack-plugin'
-import colors from 'colors/safe'
-import { ROOT_PATH, SRC_PATH } from './constants'
+const path= require( 'path')
+const webpack =require( 'webpack')
+const WebpackDevServer =require( 'webpack-dev-server')
+const HTMLWebpackPlugin= require( 'html-webpack-plugin')
+const colors= require( 'colors/safe')
+const { ROOT_PATH, SRC_PATH }= require( './constants')
 
 const DEV_HOST = '0.0.0.0'
 const DEV_PORT = '4000'
 const PUBLIC_PATH = `http://${DEV_HOST}:${DEV_PORT}`
 
-const config = {
+module.exports= {
   entry: getEntry(),
-
+  mode:'development',
   output: {
     path: '/',
     filename: 'app.js',
@@ -32,7 +32,9 @@ const config = {
       test: /\.js$/,
       include: SRC_PATH,
       exclude: /node_modules/,
-      loader: 'babel-loader' 
+      use: {
+        loader: 'babel-loader'
+      }
     }]
   },
   
@@ -71,16 +73,3 @@ function getEntry() {
   entry.app.unshift(`webpack-dev-server/client?${PUBLIC_PATH}`)
   return entry
 }
-
-//--
-
-// Default webpack config is to start the dev server
-config.build = () => {
-  const compiler = webpack(config)
-  const server = new WebpackDevServer(compiler, config.devServer)
-  server.listen(DEV_PORT, DEV_HOST, () => {
-    console.log(colors.green(`Webpack dev server listening ${DEV_HOST}:${DEV_PORT}`))
-  })
-}
-
-export default config
