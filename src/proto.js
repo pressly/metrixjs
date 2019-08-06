@@ -7,10 +7,8 @@
  */
 // GENERATED CODE -- DO NOT EDIT!
 
-
-goog.provide('proto.events.Event');
-goog.provide('proto.events.Module');
-
+goog.provide("proto.events.Event");
+goog.provide("proto.events.Module");
 
 /**
  * @enum {number}
@@ -132,6 +130,6 @@ proto.events.Event = {
   VIEWER_SPEED_CHANGE: 412,
   VIEWER_BANDWIDTH_ADAPT: 413,
   GET_FOCUS: 500,
-  LOSE_FOCUS: 501
+  LOSE_FOCUS: 501,
+  ACTIVITY_OPENED: 600
 };
-
