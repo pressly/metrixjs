@@ -7,8 +7,8 @@
  */
 // GENERATED CODE -- DO NOT EDIT!
 
-goog.provide("proto.events.Event");
-goog.provide("proto.events.Module");
+goog.provide('proto.events.Event');
+goog.provide('proto.events.Module');
 
 /**
  * @enum {number}
